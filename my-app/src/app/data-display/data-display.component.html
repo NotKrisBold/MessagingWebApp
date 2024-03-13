@@ -1,0 +1,16 @@
+    <div id="sidebar">
+    <h3>Channels</h3>
+    <aside>
+    <div>
+        <ul>
+            @for (item of data; track item.id) {
+                <button style="display: block; margin-bottom: 1px;">
+                    <h2>
+                        {{item.name}}
+                    </h2>
+                </button>
+            }
+        </ul>
+    </div>
+</aside>
+</div>
