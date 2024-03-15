@@ -1,0 +1,16 @@
+<div id="messages">
+    <h3>messages</h3>
+    <aside>
+    <div>
+        <ul>
+            @for (item of messages; track item.id) {
+                <li style="display: block; margin-bottom: 1px;">
+                    <h2>
+                        {{item.body}}
+                    </h2>
+                </li>
+            }
+        </ul>
+    </div>
+</aside>
+</div>
