@@ -438,7 +438,7 @@ a.add img {
 
 .msg-body ul li.sender p {
     color: #000;
-    font-size: 14px;
+    font-size: 20px;
     line-height: 1.5;
     font-weight: 400;
     padding: 15px;
@@ -484,7 +484,7 @@ a.add img {
 
 .msg-body ul li.repaly p {
     color: #fff;
-    font-size: 14px;
+    font-size: 20px;
     line-height: 1.5;
     font-weight: 400;
     padding: 15px;
@@ -704,6 +704,12 @@ button:focus {
     display: none;
 }
 
+div.special  {
+    border-top: 1px solid rgb(0, 0, 0);
+    border-right: 1px solid rgb(0, 0, 0);
+    border-bottom: 1px solid rgb(0, 0, 0);
+    border-left: 1px solid rgb(0, 0, 0);
+}
 
 
 @media (max-width: 767px) {
@@ -748,6 +754,7 @@ button:focus {
     .chat-list p {
         font-size: 12px;
     }
+    
     .msg-body ul li.sender p {
         font-size: 13px;
         padding: 8px;

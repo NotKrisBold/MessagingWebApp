@@ -90,9 +90,10 @@ video {
     font: inherit;
     vertical-align: baseline;
 }
-a:hover {
-    background-color: rgba(72, 179, 157, 0.588);
+a.special:hover {
+    background-color: rgba(101, 179, 231, 0.588);
 }
+
 
 /* HTML5 display-role reset for older browsers */
 
