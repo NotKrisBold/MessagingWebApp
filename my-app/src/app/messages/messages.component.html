@@ -27,99 +27,63 @@
   integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <!-- char-area -->
-  <div class="row special" >
-    <div class="col-12 ">
-      <div class="chat-area">
+<div class="row " *ngIf="messages?.length" >
+  <div class="col-12">
+    <div class="chat-area">
 
-        <!-- chatbox -->
-        <div class="chatbox">
-          <div class="modal-dialog-scrollable">
-            <div class="modal-content">
-              <div class="modal-body">
-                <div class="msg-body">
-                  <ul>
-                    <li class="sender">
-                      <p> Hey, Are you there? </p>
-                      <span class="time">10:06 am</span>
-                    </li>
-                    <li class="repaly">
-                      <p>yes!</p>
-                      <span class="time">10:20 am</span>
-                    </li>
-                    <li>
-                      <div class="divider">
-                        <h6>Today</h6>
-                      </div>
-                    </li>
-                    <li class="repaly">
-                      <p> yes, tell me</p>
-                      <span class="time">10:36 am</span>
-                    </li>
-                    <li class="sender">
-                      <p> Hey, Are you there? </p>
-                      <span class="time">10:06 am</span>
-                    </li>
-                    <li class="repaly">
-                      <p>yes!</p>
-                      <span class="time">10:20 am</span>
-                    </li>
-                    <li>
-                      <div class="divider">
-                        <h6>Today</h6>
-                      </div>
-                    </li>
-                    <li class="repaly">
-                      <p> yes, tell me</p>
-                      <span class="time">10:36 am</span>
-                    </li>
-                    <li class="sender">
-                      <p> Hey, Are you there? </p>
-                      <span class="time">10:06 am</span>
-                    </li>
-                    <li class="repaly">
-                      <p>yes!</p>
-                      <span class="time">10:20 am</span>
-                    </li>
-                    <li>
-                      <div class="divider">
-                        <h6>Today</h6>
-                      </div>
-                    </li>
-                    <li class="repaly">
-                      <p> yes, tell me</p>
-                      <span class="time">10:36 am</span>
-                    </li>
-                  </ul>
-                </div>
+      <!-- chatbox -->
+      <div class="chatbox">
+        <div class="modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-body" style="background-color: rgba(255, 251, 215, 0.336);">
+              <div class="msg-body">
+                <ul>
+                  <li *ngFor="let message of messages" class="sender">
+                    <span class="author">{{message.author}}</span>
+                    <p> {{message.body}} </p>
+                    <span class="time">{{ message.date | date:'short' }}</span>
+
+                  <li class="repaly">
+                    <p> yes, tell me</p>
+                    <span class="time">10:36 am</span>
+                  </li>
+                </ul>
               </div>
+            </div>
 
-              <div class="send-box">
-                <form action="">
-                  <input type="text" class="form-control" aria-label="message…" placeholder="Write message…">
-
-                  <button type="button"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
-                </form>
-
-                <div class="send-btns">
-                  <div class="attach">
-                    <div class="button-wrapper">
-                      <span class="label">
-                        <img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/upload.svg"
-                          alt="image title"> attached file
-                      </span><input type="file" name="upload" id="upload" class="upload-box" placeholder="Upload File"
-                        aria-label="Upload File">
-                    </div>
+            <div class="send-box" style="background-color: rgba(255, 251, 215, 0.336);" >
+              <div class="send-btns">
+                <div class="attach">
+                  <div class="button-wrapper">
+                    <span class="label">
+                      <img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/upload.svg"
+                        alt="image title"> attached file
+                    </span><input type="file" name="upload" id="upload" class="upload-box" placeholder="Upload File"
+                      aria-label="Upload File">
                   </div>
                 </div>
-
               </div>
+              <form action="" >
+                <input type="text" class="form-control" aria-label="message…" placeholder="Write message…" style="width: 100%;">
+
+                <button type="button" style="background-color:rgba(127, 255, 212, 0.5); color: black;font-weight: 500; width: 20%;"><i aria-hidden="true"></i> Send
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send"
+                    viewBox="0 0 16 16">
+                    <path
+                      d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
+                  </svg></button>
+              </form>
+
+              
+
             </div>
           </div>
         </div>
       </div>
-      <!-- chatbox -->
-
     </div>
+    <!-- chatbox -->
+
   </div>
+</div>
 <!-- char-area -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

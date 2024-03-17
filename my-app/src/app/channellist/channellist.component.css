@@ -91,7 +91,13 @@ video {
     vertical-align: baseline;
 }
 
-
+div.special  {
+    height: 100%;
+    border-top: 1px solid rgb(0, 0, 0);
+    border-right: 1px solid rgb(0, 0, 0);
+    border-bottom: 1px solid rgb(0, 0, 0);
+    border-left: 1px solid rgb(0, 0, 0);
+}
 /* HTML5 display-role reset for older browsers */
 
 article,
@@ -344,14 +350,7 @@ a.add img {
 .chat-list .active {
     display: block;
     content: '';
-    clear: both;
-    position: absolute;
-    bottom: 3px;
-    left: 34px;
-    height: 12px;
-    width: 12px;
-    background: #00DB75;
-    border-radius: 50%;
+    background:rgba(127, 255, 212, 0.5);
     border: 2px solid #fff;
 }
 

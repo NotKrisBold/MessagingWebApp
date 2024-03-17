@@ -262,7 +262,7 @@ message-area
     color: #222;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #ccc;
+    border: 1px solid #969696;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -351,7 +351,7 @@ a.add img {
     left: 34px;
     height: 12px;
     width: 12px;
-    background: #00DB75;
+    background: rgb(255, 245, 213);;
     border-radius: 50%;
     border: 2px solid #fff;
 }
@@ -420,35 +420,21 @@ a.add img {
     position: relative;
 }
 
-.msg-body ul li.sender:before {
-    display: block;
-    clear: both;
-    content: '';
-    position: absolute;
-    top: -6px;
-    left: -7px;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 12px 15px 12px;
-    border-color: transparent transparent #f5f5f5 transparent;
-    -webkit-transform: rotate(-37deg);
-    -ms-transform: rotate(-37deg);
-    transform: rotate(-37deg);
-}
+
 
 .msg-body ul li.sender p {
-    color: #000;
+    color: #000000;
     font-size: 20px;
     line-height: 1.5;
-    font-weight: 400;
+    font-weight: 450;
     padding: 15px;
-    background: #f5f5f5;
+    background: #c9e7e7;
     display: inline-block;
     border-bottom-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     margin-bottom: 0;
+    margin-right: 10%;
 }
 
 .msg-body ul li.sender p b {
@@ -460,37 +446,22 @@ a.add img {
 }
 
 .msg-body ul li.repaly {
-    margin: -1%;
     display: block;
     width: 100%;
     text-align: right;
     position: relative;
 }
 
-.msg-body ul li.repaly:before {
-    display: block;
-    clear: both;
-    content: '';
-    position: absolute;
-    bottom: 15px;
-    right: -7px;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 12px 15px 12px;
-    border-color: transparent transparent #4b7bec transparent;
-    -webkit-transform: rotate(37deg);
-    -ms-transform: rotate(37deg);
-    transform: rotate(37deg);
-}
 
 .msg-body ul li.repaly p {
-    color: #fff;
+    margin-left: 10%;
+    margin-right: 2%;
+    color: #000000;
     font-size: 20px;
     line-height: 1.5;
-    font-weight: 400;
+    font-weight: 450;
     padding: 15px;
-    background: #4b7bec;
+    background:rgb(255, 246, 192);
     display: inline-block;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -514,10 +485,19 @@ a.add img {
 
 .time {
     display: block;
-    color: #000;
+    color: #000000;
     font-size: 12px;
-    line-height: 1.5;
+    line-height: 2;
     font-weight: 400;
+}
+
+.author {
+    display: block;
+    color: #000000;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+    font-weight: 700;
 }
 
 li.repaly .time {
