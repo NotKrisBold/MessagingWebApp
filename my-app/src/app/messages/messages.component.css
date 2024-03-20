@@ -188,7 +188,7 @@ a {
 }
 
 * {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 
@@ -351,7 +351,8 @@ a.add img {
     left: 34px;
     height: 12px;
     width: 12px;
-    background: rgb(255, 245, 213);;
+    background: rgb(255, 245, 213);
+    ;
     border-radius: 50%;
     border: 2px solid #fff;
 }
@@ -461,7 +462,7 @@ a.add img {
     line-height: 1.5;
     font-weight: 450;
     padding: 15px;
-    background:rgb(255, 246, 192);
+    background: rgb(255, 246, 192);
     display: inline-block;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -491,8 +492,17 @@ a.add img {
     font-weight: 400;
 }
 
-.author {
+.author-left {
     display: block;
+    color: #000000;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+    font-weight: 700;
+}
+.author-right {
+    display: block;
+    margin-right: 2%;
     color: #000000;
     font-size: 15px;
     font-family: Arial, Helvetica, sans-serif;
@@ -686,7 +696,7 @@ button:focus {
     display: none;
 }
 
-div.special  {
+div.special {
     height: 100%;
     border-top: 1px solid rgb(0, 0, 0);
     border-right: 1px solid rgb(0, 0, 0);
@@ -700,9 +710,11 @@ div.special  {
         display: block;
         margin-right: 5px;
     }
+
     .chatlist {
         width: 100%;
     }
+
     .chatbox {
         width: 100%;
         position: absolute;
@@ -712,32 +724,40 @@ div.special  {
         transition: all 0.5s ease;
         border-left: none;
     }
+
     .showbox {
         left: 0 !important;
         transition: all 0.5s ease;
     }
+
     .msg-head h3 {
         font-size: 14px;
     }
+
     .msg-head p {
         font-size: 12px;
     }
+
     .msg-head .flex-shrink-0 img {
         height: 30px;
     }
+
     .send-box button {
         width: 28%;
     }
+
     .send-box .form-control {
         width: 70%;
     }
+
     .chat-list h3 {
         font-size: 14px;
     }
+
     .chat-list p {
         font-size: 12px;
     }
-    
+
     .msg-body ul li.sender p {
         font-size: 13px;
         padding: 10px;
@@ -745,6 +765,7 @@ div.special  {
         border-top-right-radius: 6px;
         border-bottom-right-radius: 6px;
     }
+
     .msg-body ul li.repaly p {
         font-size: 13px;
         padding: 8px;

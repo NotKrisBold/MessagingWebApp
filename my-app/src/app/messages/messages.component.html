@@ -27,7 +27,7 @@
   integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <!-- char-area -->
-<div class="row " *ngIf="messages?.length" >
+<div class="row " *ngIf="messages?.length">
   <div class="col-12">
     <div class="chat-area">
 
@@ -38,52 +38,63 @@
             <div class="modal-body" style="background-color: rgba(255, 251, 215, 0.336);">
               <div class="msg-body">
                 <ul>
-                  <li *ngFor="let message of messages" class="sender">
-                    <span class="author">{{message.author}}</span>
-                    <p> {{message.body}} </p>
-                    <span class="time">{{ message.date | date:'short' }}</span>
-
-                  <li class="repaly">
-                    <p> yes, tell me</p>
-                    <span class="time">10:36 am</span>
-                  </li>
+                  <div *ngFor="let message of messages">
+                    <div *ngIf="message.author != authorMessage; else elseBlock">
+                      <li class="sender">
+                        <span class="author-left">{{message.author}}</span>
+                        <p> {{message.body}} </p>
+                        <span class="time">{{ message.date | date:'short' }}</span>
+                      </li>
+                    </div>
+                    <ng-template #elseBlock>
+                      <li class="repaly">
+                        <span class="author-right" >{{message.author}}</span>
+                        <p> {{message.body}}</p>
+                        <span class="time">{{ message.date | date:'short' }}</span>
+                      </li>
+                    </ng-template>
+                  </div>
                 </ul>
+
               </div>
             </div>
+          </div>
 
-            <div class="send-box" style="background-color: rgba(255, 251, 215, 0.336);" >
-              <div class="send-btns">
-                <div class="attach">
-                  <div class="button-wrapper">
-                    <span class="label">
-                      <img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/upload.svg"
-                        alt="image title"> attached file
-                    </span><input type="file" name="upload" id="upload" class="upload-box" placeholder="Upload File"
-                      aria-label="Upload File">
-                  </div>
+          <div class="send-box" style="background-color: rgba(255, 251, 215, 0.336);">
+            <div class="send-btns">
+              <div class="attach">
+                <div class="button-wrapper">
+                  <span class="label">
+                    <img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/upload.svg" alt="image title">
+                    attached file
+                  </span><input type="file" name="upload" id="upload" class="upload-box" placeholder="Upload File"
+                    aria-label="Upload File">
                 </div>
               </div>
-              <form action="" >
-                <input type="text" class="form-control" aria-label="message…" placeholder="Write message…" style="width: 100%;">
-
-                <button type="button" style="background-color:rgba(127, 255, 212, 0.5); color: black;font-weight: 500; width: 20%;"><i aria-hidden="true"></i> Send
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send"
-                    viewBox="0 0 16 16">
-                    <path
-                      d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
-                  </svg></button>
-              </form>
-
-              
-
             </div>
+            <form action="">
+              <input id="new-message" #messagebody type="text" class="form-control" aria-label="message…"
+                placeholder="Write message…" style="width: 100%;">
+
+              <button type="button" (click)='onSubmit()'
+                style="background-color:rgba(127, 255, 212, 0.5); color: black;font-weight: 500; width: 20%;"> Send
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
+                </svg>
+              </button>
+            </form>
+
+
+
           </div>
         </div>
       </div>
     </div>
-    <!-- chatbox -->
-
   </div>
+  <!-- chatbox -->
+
 </div>
 <!-- char-area -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

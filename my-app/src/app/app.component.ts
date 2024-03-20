@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MessagesComponent } from './messages/messages.component';
 import { NavComponent } from './nav/nav.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ChannellistComponent } from './channellist/channellist.component';
+import { ChannelserviceService } from './channelservice.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,12 @@ import { ChannellistComponent } from './channellist/channellist.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'Homes';
+  author = "Marvin Berry";
+  constructor(
+    private service: ChannelserviceService,
+  ) {
+    service.setAuthor(this.author);
+  }
 }
 
 

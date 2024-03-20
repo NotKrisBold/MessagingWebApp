@@ -5,6 +5,7 @@ import { RouterLink, RouterModule } from '@angular/router';
 import { NgFor } from '@angular/common';
 
 
+
 @Component({
   selector: 'app-channellist',
   standalone: true,
@@ -24,7 +25,7 @@ export class ChannellistComponent {
 
   getChannels(): void {
     this.service.getChannels()
-      .subscribe(channels => this.channels = channels);
+      .subscribe(channels => {this.channels = channels});
   }
 
 }
