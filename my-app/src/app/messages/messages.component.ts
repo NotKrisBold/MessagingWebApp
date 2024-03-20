@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, NgModule, OnInit, inject } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Channel } from '../channel';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChannelserviceService } from '../channelservice.service';
 import { CommonModule, NgIf } from '@angular/common';
 import { Message } from '../message';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-messages',
@@ -18,6 +19,8 @@ export class MessagesComponent implements OnInit {
   messages: Message[] = [];
   channel: Channel | undefined;
   authorMessage: any;
+  messageBody : string = "";
+  selectedFile: File | null = null;
   constructor(
     private route: ActivatedRoute,
     private service: ChannelserviceService,
@@ -46,8 +49,8 @@ export class MessagesComponent implements OnInit {
     const message = new Message(
       '1',
       null,
-      'Questo è il corpo del messaggio',
-      'Autore',
+      this.messageBody,
+      this.service.getAuthor(),
       new Date().toISOString(),
       new Date().toISOString(),
       1,
@@ -57,7 +60,7 @@ export class MessagesComponent implements OnInit {
     console.log("invio");
     const formdata = new FormData();
     formdata.append("message", new Blob([JSON.stringify(message)], { type: 'application/json' }));
-    formdata.append("attachment", new Blob());
+    formdata.append("attachment", this.selectedFile ? this.selectedFile: new Blob());
     formdata.forEach((data) => console.log(data));
     this.service.addMessage(formdata, 1).subscribe(
       (res) => console.log(res),
@@ -65,6 +68,10 @@ export class MessagesComponent implements OnInit {
     );
   }
 
+  onFileChange(event: any) {
+    // Capture the selected file
+    this.selectedFile = event.target.files[0];
+  }
 
 }
 
