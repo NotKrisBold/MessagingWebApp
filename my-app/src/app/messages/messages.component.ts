@@ -21,6 +21,7 @@ export class MessagesComponent implements OnInit {
   authorMessage: any;
   messageBody : string = "";
   selectedFile: File | null = null;
+  id: number = 0;
   constructor(
     private route: ActivatedRoute,
     private service: ChannelserviceService,
@@ -34,6 +35,7 @@ export class MessagesComponent implements OnInit {
     this.route.params.subscribe(params => {
       const id = parseInt(params['id'], 10);
       console.log("subscribe",id);
+      this.id = id;
       if (!isNaN(id)) {
         this.getChannelMessage(id);
       }
@@ -45,32 +47,46 @@ export class MessagesComponent implements OnInit {
       .subscribe(messages => this.messages = messages);
   }
 
-  onSubmit() {
-    const message = new Message(
-      '1',
-      null,
-      this.messageBody,
-      this.service.getAuthor(),
-      new Date().toISOString(),
-      new Date().toISOString(),
-      1,
-      null
-    );
-
-    console.log("invio");
-    const formdata = new FormData();
-    formdata.append("message", new Blob([JSON.stringify(message)], { type: 'application/json' }));
-    formdata.append("attachment", this.selectedFile ? this.selectedFile: new Blob());
-    formdata.forEach((data) => console.log(data));
-    this.service.addMessage(formdata, 1).subscribe(
-      (res) => console.log(res),
-      (err) => console.log(err)
-    );
+  onSubmit(message: string) {
+    console.log("message:", this.messageBody);
+    if(message != ""){
+      const newMessage = new Message(
+        '1',
+        null,
+        message,
+        this.service.getAuthor(),
+        new Date().toISOString(),
+        new Date().toISOString(),
+        1,
+        this.selectedFile
+      );
+  
+      const formdata = new FormData();
+      formdata.append("message", new Blob([JSON.stringify(newMessage)], { type: 'application/json' }));
+      formdata.append("attachment", this.selectedFile ? this.selectedFile: new Blob());
+      console.log(this.selectedFile);
+      formdata.forEach((data) => console.log(data));
+      this.service.addMessage(formdata, this.id).subscribe();
+    }
   }
 
   onFileChange(event: any) {
     // Capture the selected file
     this.selectedFile = event.target.files[0];
+  }
+
+  onKeyPress(event: KeyboardEvent, message: string) {
+    // Check if Enter key is pressed
+    if (event.key === 'Enter') {
+      this.onSubmit(message);
+    }
+  }
+
+  getFileUrl(): string {
+    if (this.selectedFile) {
+      return URL.createObjectURL(this.selectedFile);
+    }
+    return '';
   }
 
 }

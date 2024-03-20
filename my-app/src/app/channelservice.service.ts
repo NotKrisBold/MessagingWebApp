@@ -30,7 +30,6 @@ export class ChannelserviceService {
 
   addMessage(formData: FormData,id: number):Observable<Message>{
     const url = `${this.messageUrl}${id}${this.apiKey}`;
-    console.log("post");
     return this.HttpClient.post<any>(url, formData);
   }
   getAuthor(){
