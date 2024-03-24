@@ -41,16 +41,51 @@
                   <div *ngFor="let message of messages">
                     <div *ngIf="message.author != authorMessage; else elseBlock">
                       <li class="sender">
-                        <span class="author-left">{{message.author}}</span>
-                        <p> {{message.body}} </p>
+                        <span class="author-left">{{message.author}}
+                          <button type="button" class="btn btn-outline-warning btn-sm"
+                            (click)="reply(message.id)">Reply</button></span>
+                        <p *ngIf="message.parentMessageId">
+                          <span>
+                            <p class="" style="background-color: aliceblue; font-size: 15px;">
+                              <span style="font-weight: bold; font-size: 15px;"> {{ getMessageById(message.parentMessageId)?.author
+                              }}</span>
+                              <br>
+                              {{ getMessageById(message.parentMessageId)?.body }}
+                            </p>
+                          </span>
+                        </p>
+                        <br>
+                        <p>{{message.body}} </p>
                         <span class="time">{{ message.date | date:'short' }}</span>
+                        <div *ngIf="message.attachment">
+                          <a href="{{ message.attachment.url }}" download="{{ message.attachment.name }}">Attachment</a>
+                        </div>
                       </li>
                     </div>
                     <ng-template #elseBlock>
                       <li class="repaly">
-                        <span class="author-right" >{{message.author}}</span>
-                        <p> {{message.body}}</p>
+
+                        <span class="author-right">{{message.author}}
+                          <button type="button" class="btn btn-outline-warning btn-sm"
+                            (click)="updateMessage(message.id)">Modify</button></span>
+                            <p *ngIf="message.parentMessageId">
+                              <span>
+                                <p class="" style="background-color: rgb(255, 255, 232); font-size: 15px;">
+                                  <span style="font-weight: bold; font-size: 15px;"> {{ getMessageById(message.parentMessageId)?.author
+                                  }}</span>
+                                  <br>
+                                  {{ getMessageById(message.parentMessageId)?.body }}
+                                </p>
+                              </span>
+                            </p>
+                            <br>
+                            <p>{{message.body}} </p>
+                        <div *ngIf="message.attachment" class="attached">
+                          <a href="{{ message.attachment.url }}" download="{{ message.attachment.name }}">
+                            Attachment</a>
+                        </div>
                         <span class="time">{{ message.date | date:'short' }}</span>
+
                       </li>
                     </ng-template>
                   </div>
@@ -58,41 +93,15 @@
 
               </div>
             </div>
-            <div class="send-box" style="background-color: rgba(255, 251, 215, 0.336);">
-              <div class="send-btns">
-                <div class="attach">
-                  <div class="button-wrapper">
-                    <span class="label">
-                      <img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/upload.svg" alt="image title">
-                      attached file
-                    </span><input type="file" (change)="onFileChange($event)" name="upload" id="upload" class="upload-box" placeholder="Upload File"
-                      aria-label="Upload File">
-                  </div>
-                </div>
-              </div>
-              <form action="">
-                <input #newMessage id="new-message" type="text" class="form-control" aria-label="message…"
-                  placeholder="Write message…" style="width: 100%;" (keypress)="onKeyPress($event,newMessage.value);">
-  
-                <button type="button" (click)='onSubmit(newMessage.value);newMessage.value=""'
-                  style="background-color:rgba(127, 255, 212, 0.5); color: black;font-weight: 500; width: 20%;"> Send
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send"
-                    viewBox="0 0 16 16">
-                    <path
-                      d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
-                  </svg>
-                </button>
-              </form>
+
           </div>
 
-          
-          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- chatbox -->
+    <!-- chatbox -->
 
-</div>
-<!-- char-area -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </div>
+  <!-- char-area -->
+  <app-message-input (messageSent)="onSubmit($event)"></app-message-input>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

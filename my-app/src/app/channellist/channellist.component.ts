@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Channel } from '../channel';
-import { ChannelserviceService } from '../channelservice.service';
+import { Channel } from '../models/channel';
+import { ChannelserviceService } from '../services/channelservice.service';
 import { RouterLink, RouterModule } from '@angular/router';
 import { NgFor } from '@angular/common';
 
