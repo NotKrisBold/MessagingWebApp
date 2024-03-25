@@ -7,6 +7,7 @@ import { Message } from '../models/message';
 import { v4 as uuidv4 } from 'uuid';
 import { MessageServiceService } from '../services/message-service.service';
 import { MessageInputComponent } from "../message-input/message-input.component";
+import { ChannelserviceService } from '../services/channelservice.service';
 @Component({
     selector: 'app-messages',
     standalone: true,
@@ -30,27 +31,32 @@ export class MessagesComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private service: MessageServiceService,
+    private messageService: MessageServiceService,
+    private channelService: ChannelserviceService
   ) {
-    this.authorMessage = service.getAuthor();
+    this.authorMessage = messageService.getAuthor();
     this.selectedFile ? this.selectedFile: new Blob();
   }
 
 
   ngOnInit(): void {
-    console.log("ngoninit", this.authorMessage);
-    this.route.params.subscribe(params => {
-      const id = parseInt(params['id'], 10);
-      this.id = id;
-      if (!isNaN(id)) {
-        this.getChannelMessage(id);
-      }
+    this.channelService.getCurrentChannel().subscribe(channel => {
+      this.getChannelMessage(channel?.id);
     });
   }
 
-  getChannelMessage(id: number): void {
-    this.service.getChannelMessages(id)
-      .subscribe(messages => this.messages = messages);
+  getChannelMessage(channelId: number | undefined): void {
+    if(channelId)
+      this.messageService.getChannelMessages(channelId)
+        .subscribe(messages => {
+          this.messages = messages
+        });
+  }
+
+  logMessages(){
+    for(let message of this.messages){
+      console.log(message);
+    }
   }
 
   onSubmit(data: { text: string, file: File | null }) {
@@ -66,7 +72,7 @@ export class MessagesComponent implements OnInit {
   }
 
   sendUpdateMessage(message: string){
-    this.service.updateMessage(this.messageId,message).subscribe();
+    this.messageService.updateMessage(this.messageId,message).subscribe();
   }
 
   sendReplyMessage(message: string){
@@ -77,7 +83,7 @@ export class MessagesComponent implements OnInit {
         uuidv4(),
         this.messageId,
         message,
-        this.service.getAuthor(),
+        this.messageService.getAuthor(),
         new Date().toISOString(),
         new Date().toISOString(),
         1,
@@ -88,7 +94,7 @@ export class MessagesComponent implements OnInit {
       formdata.append("attachment", this.selectedFile ? this.selectedFile: new Blob());
       console.log(this.selectedFile);
       formdata.forEach((data) => console.log(data));
-      this.service.addMessage(formdata, this.id).subscribe();
+      this.messageService.addMessage(formdata, this.id).subscribe();
       this.removeFile();
     }
   }
@@ -99,7 +105,7 @@ export class MessagesComponent implements OnInit {
         uuidv4(),
         null,
         message,
-        this.service.getAuthor(),
+        this.messageService.getAuthor(),
         new Date().toISOString(),
         new Date().toISOString(),
         1,
@@ -111,7 +117,7 @@ export class MessagesComponent implements OnInit {
       formdata.append("attachment", this.selectedFile ? this.selectedFile: new Blob());
       console.log(this.selectedFile);
       formdata.forEach((data) => console.log(data));
-      this.service.addMessage(formdata, this.id).subscribe();
+      this.messageService.addMessage(formdata, this.id).subscribe();
       this.removeFile();
     }
   }

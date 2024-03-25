@@ -14,7 +14,7 @@
                 <br>
                 <div class="modal-body">
                     <div class="chat-list">
-                        <a *ngFor="let channel of channels" routerLink="/channel/{{channel.id}}" routerLinkActive="active" class="d-flex align-items-center special border">
+                        <a *ngFor="let channel of channels" class="d-flex align-items-center special border" (click)="changeChannel(channel.id)">
                             <div class="flex-grow-1 ms-3">
                                 <h3 style="font-size: 25px;">{{channel.name}}</h3>
                             </div>

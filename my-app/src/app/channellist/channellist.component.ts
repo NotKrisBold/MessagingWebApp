@@ -25,7 +25,21 @@ export class ChannellistComponent {
 
   getChannels(): void {
     this.service.getChannels()
-      .subscribe(channels => {this.channels = channels});
+      .subscribe(channels => {
+        this.channels = channels
+      });
   }
 
+  changeChannel(channelId: number){
+    this.service.setCurrentChannel(this.getChannelById(channelId));
+  }
+
+  getChannelById(channelId: number): Channel | undefined{
+    for(const channel of this.channels){
+      if(channelId == channel.id){
+        return channel;
+      }
+    }
+    return undefined;
+  }
 }
