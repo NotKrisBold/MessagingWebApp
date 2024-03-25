@@ -7,13 +7,16 @@ import { Message } from '../models/message';
   providedIn: 'root'
 })
 export class MessageServiceService {
+ 
   private author = "nome";
   private messageUrl = "https://supsi-ticket.cloudns.org/supsi-chat/bff/channels/";
   private apiKey = "?apiKey=boldini-elaidy";
   private messageUpdateUrl = "https://supsi-ticket.cloudns.org/supsi-chat/bff/messages/"
 
+  private modifyingMessage = false;
+  private replyingMessage = false;
   private HttpClient = inject(HttpClient);
-  
+  private replyingToId = "";
 
   getChannelMessages(id: number): Observable<Message[]> {
     const url = `${this.messageUrl}${id}/messages${this.apiKey}`;
@@ -39,5 +42,29 @@ export class MessageServiceService {
 
   setAuthor(nome: string){
     this.author = nome;
+  }
+
+  isReplying(){
+    return this.replyingMessage;
+  }
+
+  isModifying(){
+    return this.modifyingMessage;
+  }
+
+  setReplying(bool: boolean){
+    this.replyingMessage = bool;
+  }
+
+  setModifying(bool: boolean){
+    this.modifyingMessage = bool;
+  }
+
+  setReplyingTo(id: string) {
+    this.replyingToId = id;
+  }
+
+  getReplyingTo() {
+    return this.replyingToId;
   }
 }

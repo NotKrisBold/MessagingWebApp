@@ -8,12 +8,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { MessageServiceService } from '../services/message-service.service';
 import { MessageInputComponent } from "../message-input/message-input.component";
 import { ChannelserviceService } from '../services/channelservice.service';
+import { MessageComponent } from '../message/message.component';
 @Component({
     selector: 'app-messages',
     standalone: true,
     templateUrl: './messages.component.html',
     styleUrl: './messages.component.css',
-    imports: [HttpClientModule, NgIf, CommonModule, RouterModule, MessageInputComponent]
+    imports: [HttpClientModule, NgIf, CommonModule, RouterModule, MessageInputComponent,MessageComponent]
 })
 
 export class MessagesComponent implements OnInit {
@@ -24,10 +25,6 @@ export class MessagesComponent implements OnInit {
   selectedFile: File | null = null;
   fileAttached: boolean = false;
   channelId: number = 0;
-  updatingMessage = false;
-  replyingMessage = false;
-  messageId: string = "";
-  parentMessageBody : string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -42,48 +39,45 @@ export class MessagesComponent implements OnInit {
   ngOnInit(): void {
     this.channelService.getCurrentChannel().subscribe(channel => {
       if(channel?.id){
-        this.channelId = channel?.id;
-        this.getChannelMessage();
+        this.channelId = channel.id;
+        this.getChannelMessages();
       }
+    }, (error) => {
+      console.error('Error loading messages:', error);
     });
   }
 
-  getChannelMessage(): void {
+  getChannelMessages(): void {
     this.messageService.getChannelMessages(this.channelId)
       .subscribe(messages => {
         this.messages = messages
       });
   }
 
-  logMessages(){
-    for(let message of this.messages){
-      console.log(message);
-    }
-  }
-
   onSubmit(data: { text: string, file: File | null }) {
-    console.log("sto inviando messaggio");
     const message = data.text;
     this.selectedFile = data.file;
-    if(this.updatingMessage)
+    if(this.messageService.isModifying()){
       this.sendUpdateMessage(message);
-    else if(this.replyingMessage)
+      this.messageService.setModifying(false);
+    }
+    else if(this.messageService.isReplying()){
       this.sendReplyMessage(message);
+      this.messageService.setReplying(false);
+    }
     else
       this.sendMessage(message);
   }
 
   sendUpdateMessage(message: string){
-    this.messageService.updateMessage(this.messageId,message).subscribe();
+    this.messageService.updateMessage(this.messageService.getReplyingTo(),message).subscribe();
   }
 
   sendReplyMessage(message: string){
-    this.replyingMessage = true;
-    console.log("message:", this.messageBody);
     if(message != ""){
       const newMessage = new Message(
         uuidv4(),
-        this.messageId,
+        this.messageService.getReplyingTo(),
         message,
         this.messageService.getAuthor(),
         new Date().toISOString(),
@@ -124,58 +118,12 @@ export class MessagesComponent implements OnInit {
     }
   }
 
-  onFileChange(event: any) {
-    this.selectedFile = event.target.files[0];
-    this.updateFileAttachmentIndicator();
-  }
-  
-  updateFileAttachmentIndicator() {
-    if (this.selectedFile) {
-      this.fileAttached = true;
-    } else {
-      this.fileAttached = false;
-    }
-  }
-
   removeFile() {
     this.fileAttached = false;
     this.selectedFile = null;
   }
 
-  onKeyPress(event: KeyboardEvent, message: string) {
-    // Check if Enter key is pressed
-    if (event.key == 'Enter') {
-     
-    }
-  }
-
-  getFileUrl(): string {
-    if (this.selectedFile) {
-      return URL.createObjectURL(this.selectedFile);
-    }
-    return '';
-  }
-  
-  updateMessage(id: string){
-    this.stopUpdateMessageOrReply();
-    this.updatingMessage = true;
-    this.messageId = id;
-  }
-
-  stopUpdateMessageOrReply(){
-    this.updatingMessage = false;
-    this.messageId = "";
-    this.messageId = "";
-    this.replyingMessage = false;
-  }
-
-  reply(id: string){
-    this.stopUpdateMessageOrReply();
-    this.replyingMessage = true;
-    this.messageId = id;
-  }
-
-  getMessageById(id: string | null): Message | undefined {
+  getMessageById(id: string): Message | undefined {
     return this.messages.find(message => message.id === id);
   }
 }

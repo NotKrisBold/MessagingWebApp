@@ -17,7 +17,7 @@ export class Message {
         date: string,
         lastEditTime: string,
         channelId: number,
-        attachment: any
+        attachment: any,
     ) {
         this.id = id;
         this.parentMessageId = parentMessageId;

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ChannellistComponent } from '../channellist/channellist.component';
-import { MessagesComponent } from '../messages/messages.component';
+import { MessagesComponent } from '../messagesList/messages.component';
 import { NavComponent } from '../nav/nav.component';
 import { RouterOutlet } from '@angular/router';
 import { MessageServiceService } from '../services/message-service.service';
