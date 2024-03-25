@@ -23,7 +23,7 @@ export class MessagesComponent implements OnInit {
   messageBody : string = "";
   selectedFile: File | null = null;
   fileAttached: boolean = false;
-  id: number = 0;
+  channelId: number = 0;
   updatingMessage = false;
   replyingMessage = false;
   messageId: string = "";
@@ -41,16 +41,18 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit(): void {
     this.channelService.getCurrentChannel().subscribe(channel => {
-      this.getChannelMessage(channel?.id);
+      if(channel?.id){
+        this.channelId = channel?.id;
+        this.getChannelMessage();
+      }
     });
   }
 
-  getChannelMessage(channelId: number | undefined): void {
-    if(channelId)
-      this.messageService.getChannelMessages(channelId)
-        .subscribe(messages => {
-          this.messages = messages
-        });
+  getChannelMessage(): void {
+    this.messageService.getChannelMessages(this.channelId)
+      .subscribe(messages => {
+        this.messages = messages
+      });
   }
 
   logMessages(){
@@ -94,7 +96,7 @@ export class MessagesComponent implements OnInit {
       formdata.append("attachment", this.selectedFile ? this.selectedFile: new Blob());
       console.log(this.selectedFile);
       formdata.forEach((data) => console.log(data));
-      this.messageService.addMessage(formdata, this.id).subscribe();
+      this.messageService.addMessage(formdata, this.channelId).subscribe();
       this.removeFile();
     }
   }
@@ -117,7 +119,7 @@ export class MessagesComponent implements OnInit {
       formdata.append("attachment", this.selectedFile ? this.selectedFile: new Blob());
       console.log(this.selectedFile);
       formdata.forEach((data) => console.log(data));
-      this.messageService.addMessage(formdata, this.id).subscribe();
+      this.messageService.addMessage(formdata, this.channelId).subscribe();
       this.removeFile();
     }
   }
