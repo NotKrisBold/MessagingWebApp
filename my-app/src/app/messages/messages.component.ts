@@ -8,12 +8,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { MessageServiceService } from '../services/message-service.service';
 import { MessageInputComponent } from "../message-input/message-input.component";
 import { ChannelserviceService } from '../services/channelservice.service';
+import { LinkPreviewService } from '../services/link-preview.service';
+import { LinkPreviewComponent } from '../link-preview/link-preview.component';
 @Component({
     selector: 'app-messages',
     standalone: true,
     templateUrl: './messages.component.html',
     styleUrl: './messages.component.css',
-    imports: [HttpClientModule, NgIf, CommonModule, RouterModule, MessageInputComponent]
+    imports: [HttpClientModule, NgIf, CommonModule, RouterModule, MessageInputComponent, LinkPreviewComponent]
 })
 
 export class MessagesComponent implements OnInit {
@@ -32,7 +34,8 @@ export class MessagesComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private messageService: MessageServiceService,
-    private channelService: ChannelserviceService
+    private channelService: ChannelserviceService,
+    private linkPreviewService: LinkPreviewService
   ) {
     this.authorMessage = messageService.getAuthor();
     this.selectedFile ? this.selectedFile: new Blob();
@@ -51,7 +54,8 @@ export class MessagesComponent implements OnInit {
   getChannelMessage(): void {
     this.messageService.getChannelMessages(this.channelId)
       .subscribe(messages => {
-        this.messages = messages
+        this.messages = messages;
+        this.fetchLinkPreviews();
       });
   }
 
@@ -178,5 +182,41 @@ export class MessagesComponent implements OnInit {
   getMessageById(id: string | null): Message | undefined {
     return this.messages.find(message => message.id === id);
   }
+
+  
+  fetchLinkPreviews(): void {
+    for (let message of this.messages) {
+      const link = this.extractLink(message.body);
+      if (link) { 
+          this.linkPreviewService.getLinkPreview(link).subscribe(previewData => {
+          message.linkPreview = previewData;
+        });
+      }
+    }
+  }
+
+  extractLink(message: string): string | null {
+    // Regular expression to match URLs
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+  
+    // Execute the regex on the message
+    const matches = message.match(urlRegex);
+  
+    // Check if any matches are found
+    if (matches && matches.length > 0) {
+      // Return the first match (assuming the message contains only one link)
+      return matches[0];
+    } else {
+      return null; // No link found in the message
+    }
+  }
+}
+
+interface LinkPreview {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
+  error: string;
 }
 

@@ -8,6 +8,7 @@ export class Message {
     lastEditTime: string;
     channelId: number;
     attachment: any;
+    linkPreview?: { title: string, description: string, image: string, url: string, error: string };
 
     constructor(
         id: string,
