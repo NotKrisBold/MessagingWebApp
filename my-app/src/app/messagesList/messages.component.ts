@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { Channel } from '../models/channel';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -11,6 +11,7 @@ import { ChannelserviceService } from '../services/channelservice.service';
 import { MessageComponent } from '../message/message.component';
 import { RxStompService } from '../rx-stomp.service';
 import { Subscription } from 'rxjs';
+import { IMessage } from '@stomp/stompjs';
 @Component({
     selector: 'app-messages',
     standalone: true,
@@ -22,30 +23,37 @@ import { Subscription } from 'rxjs';
 export class MessagesComponent implements OnInit {
   messages: Message[] = [];
   channel: Channel | undefined;
-  authorMessage: any;
+  @Input() authorMessage!: string;
   messageBody : string = "";
   selectedFile: File | null = null;
   fileAttached: boolean = false;
   channelId: number = 0;
   private topicSubscription!: Subscription;
   receivedMessages: string[] = [];
+  apiKey = "boldini-elaidy";
 
+  showConfirmationMessage = false;
   constructor(
     private rxStompService: RxStompService,
     private route: ActivatedRoute,
     private messageService: MessageServiceService,
     private channelService: ChannelserviceService
   ) {
-    this.authorMessage = messageService.getAuthor();
-    this.selectedFile ? this.selectedFile: new Blob();
+    
   }
 
+
   ngOnInit(): void {
+    console.log("authore messages",this.authorMessage);
+    this.selectedFile ? this.selectedFile: new Blob();
     this.topicSubscription = this.rxStompService
-      .watch('/topic/demo')
-      .subscribe((message: any) => {
+      .watch(`/app/${this.apiKey}/new-message`)
+      .subscribe((message: IMessage) => {
+        console.log("ws",message)
         this.receivedMessages.push(message.body);
+        console.log(this.receivedMessages);
       });
+      
     this.channelService.getCurrentChannel().subscribe(channel => {
       if(channel?.id){
         this.channelId = channel.id;
@@ -64,7 +72,6 @@ export class MessagesComponent implements OnInit {
   }
 
   onSubmit(data: { text: string, file: File | null }) {
-    this.rxStompService.publish({ destination: '/topic/demo', body: data.text });
     const message = data.text;
     this.selectedFile = data.file;
     if(this.messageService.isModifying()){
@@ -89,7 +96,7 @@ export class MessagesComponent implements OnInit {
         uuidv4(),
         this.messageService.getReplyingTo(),
         message,
-        this.messageService.getAuthor(),
+        this.authorMessage,
         new Date().toISOString(),
         new Date().toISOString(),
         1,
@@ -102,7 +109,9 @@ export class MessagesComponent implements OnInit {
       formdata.forEach((data) => console.log(data));
       this.messageService.addMessage(formdata, this.channelId).subscribe();
       this.removeFile();
+      
     }
+
   }
 
   sendMessage(message: string){
@@ -111,7 +120,7 @@ export class MessagesComponent implements OnInit {
         uuidv4(),
         null,
         message,
-        this.messageService.getAuthor(),
+        this.authorMessage,
         new Date().toISOString(),
         new Date().toISOString(),
         1,
@@ -125,6 +134,24 @@ export class MessagesComponent implements OnInit {
       formdata.forEach((data) => console.log(data));
       this.messageService.addMessage(formdata, this.channelId).subscribe();
       this.removeFile();
+      
+      const messageBody = JSON.stringify(newMessage); // Convert message object to JSON string
+      this.rxStompService.publish({
+        destination: `/app/${this.apiKey}/new-message`, // Specify the destination topic
+        body: messageBody // Pass the message body
+      });
+
+      // Add the sent message to the message list
+    this.messages.push(newMessage);
+
+    /*
+    // Display a confirmation message
+    this.showConfirmationMessage = true;
+    setTimeout(() => {
+      this.showConfirmationMessage = false;
+    }, 3000); // Hide the confirmation message after 3 seconds
+*/
+    this.removeFile(); // Remove file after publishing the message
     }
   }
 
@@ -133,8 +160,17 @@ export class MessagesComponent implements OnInit {
     this.selectedFile = null;
   }
 
-  getMessageById(id: string): Message | undefined {
-    return this.messages.find(message => message.id === id);
+  getMessageById(id: string | null): Message | undefined {
+    if (!id) return undefined; 
+  
+    for (let i = 0; i < this.messages.length; i++) {
+      if (this.messages[i].id === id) {
+        return this.messages[i];
+      }
+    }
+  
+    return undefined; 
   }
+  
 }
 

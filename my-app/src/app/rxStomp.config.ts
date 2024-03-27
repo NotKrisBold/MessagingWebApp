@@ -5,11 +5,6 @@ export const myRxStompConfig: RxStompConfig = {
   brokerURL: 'wss://supsi-ticket.cloudns.org/supsi-chat/supsi-chat-websocket',
 
   // Headers
-  // Typical keys: login, passcode, host
-  connectHeaders: {
-    login: 'guest',
-    passcode: 'guest',
-  },
 
   // How often to heartbeat?
   // Interval in milliseconds, set to 0 to disable

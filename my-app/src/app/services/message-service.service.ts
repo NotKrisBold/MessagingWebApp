@@ -8,7 +8,8 @@ import { Message } from '../models/message';
 })
 export class MessageServiceService {
  
-  private author = "nome";
+  private author = "";
+  private url = "";
   private messageUrl = "https://supsi-ticket.cloudns.org/supsi-chat/bff/channels/";
   private apiKey = "?apiKey=boldini-elaidy";
   private messageUpdateUrl = "https://supsi-ticket.cloudns.org/supsi-chat/bff/messages/"
@@ -67,4 +68,9 @@ export class MessageServiceService {
   getReplyingTo() {
     return this.replyingToId;
   }
+
+  setUrl(url: string){
+    this.url = url;
+  }
+  
 }

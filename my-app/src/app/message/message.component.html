@@ -6,8 +6,8 @@
         <div *ngIf="message.parentMessageId"
             [ngClass]="{'replied-content-sender': isCurrentUser, 'replied-content-other': !isCurrentUser}">
             <div class="replied-message">
-                <span class="replied-author">{{ getMessageById(message.parentMessageId)?.author }}</span>
-                <div class="replied-content">{{ getMessageById(message.parentMessageId)?.body }}</div>
+                <span class="replied-author">{{ parentMessage?.author }}</span>
+                <div class="replied-content">{{ parentMessage?.body }}</div>
             </div>
         </div>
         {{ message.body }}

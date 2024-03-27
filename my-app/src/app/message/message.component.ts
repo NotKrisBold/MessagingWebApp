@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Message } from '../models/message';
 import { CommonModule } from '@angular/common';
 import { MessagesComponent } from '../messagesList/messages.component';
@@ -12,25 +12,25 @@ import { MessageServiceService } from '../services/message-service.service';
   templateUrl: './message.component.html',
   styleUrl: './message.component.css'
 })
-export class MessageComponent {
+export class MessageComponent implements OnInit{
   @Input()
   message!: Message;
   @Input()
-  messages!: Message[];
-  @Input()
   currentUser!: string;
   @Input()
-  getMessageById!: Function;
+  parentMessage: Message | undefined;
   
-
   isCurrentUser: boolean = false;
 
-  constructor(private messageService: MessageServiceService) {}
+  constructor(private messageService: MessageServiceService) {
+    
+  }
 
   ngOnInit() {
     this.isCurrentUser = this.message.author === this.currentUser;
   }
 
+  
   reply(id: string){
     this.messageService.setReplying(true);
     this.messageService.setReplyingTo(id);

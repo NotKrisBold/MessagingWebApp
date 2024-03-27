@@ -122,22 +122,18 @@
             <div class="modal-body" style="background-color: rgba(255, 251, 215, 0.336);">
               <div class="msg-body">
                 <ul>
-                  <div *ngFor="let message of messages">
-                    <div *ngIf="message.author != authorMessage; else elseBlock">
-                      <app-message [message]="message" [currentUser]="authorMessage" [getMessageById]="getMessageById" 
-                        [messages]="messages">
-                      </app-message>
-                    </div>
-                    <ng-template #elseBlock>
-                      <app-message [message]="message" [currentUser]="authorMessage" [getMessageById]="getMessageById" 
-                        [messages]="messages">
-                      </app-message>
-                    </ng-template>
+                  <div>
+                    <app-message *ngFor="let message of messages" [message]="message" [currentUser]="authorMessage"
+                      [parentMessage]="getMessageById(message.parentMessageId)">
+                    </app-message>
                   </div>
                 </ul>
               </div>
             </div>
             <app-message-input (messageSent)="onSubmit($event)"></app-message-input>
+            <div *ngIf="showConfirmationMessage" class="confirmation-message">
+              Message sent successfully!
+            </div>
           </div>
         </div>
       </div>

@@ -7,10 +7,12 @@ import { Channel } from '../models/channel';
   providedIn: 'root'
 })
 export class ChannelserviceService {
+
   private currentChannel: Channel | undefined;
   public currentChannel$: Observable<Channel | undefined>;
   private currentChannelSubject: BehaviorSubject<Channel | undefined>;
   private channelUrl = 'https://supsi-ticket.cloudns.org/supsi-chat/bff/channels';
+  private url = "";
 
   constructor(private httpClient: HttpClient) {
     this.currentChannelSubject = new BehaviorSubject<Channel | undefined>(undefined);
@@ -36,6 +38,9 @@ export class ChannelserviceService {
     return this.currentChannel$;
   }
 
+  setUrl(url: string){
+    this.url = url;
+  }
   /*
   getChannels(): Observable<Channel[]> {
     return this.HttpClient.get<Channel[]>(this.channelUrl);
