@@ -66,6 +66,3 @@ export class MessageComponent {
      return this.sanitizer.bypassSecurityTrustHtml(sanitizedBody);
    }
 }
-
-
-
