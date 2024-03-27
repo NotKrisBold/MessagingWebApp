@@ -9,6 +9,8 @@ import { MessageServiceService } from '../services/message-service.service';
 import { MessageInputComponent } from "../message-input/message-input.component";
 import { ChannelserviceService } from '../services/channelservice.service';
 import { MessageComponent } from '../message/message.component';
+import { RxStompService } from '../rx-stomp.service';
+import { Subscription } from 'rxjs';
 @Component({
     selector: 'app-messages',
     standalone: true,
@@ -25,8 +27,11 @@ export class MessagesComponent implements OnInit {
   selectedFile: File | null = null;
   fileAttached: boolean = false;
   channelId: number = 0;
+  private topicSubscription!: Subscription;
+  receivedMessages: string[] = [];
 
   constructor(
+    private rxStompService: RxStompService,
     private route: ActivatedRoute,
     private messageService: MessageServiceService,
     private channelService: ChannelserviceService
@@ -35,8 +40,12 @@ export class MessagesComponent implements OnInit {
     this.selectedFile ? this.selectedFile: new Blob();
   }
 
-
   ngOnInit(): void {
+    this.topicSubscription = this.rxStompService
+      .watch('/topic/demo')
+      .subscribe((message: any) => {
+        this.receivedMessages.push(message.body);
+      });
     this.channelService.getCurrentChannel().subscribe(channel => {
       if(channel?.id){
         this.channelId = channel.id;
@@ -55,6 +64,7 @@ export class MessagesComponent implements OnInit {
   }
 
   onSubmit(data: { text: string, file: File | null }) {
+    this.rxStompService.publish({ destination: '/topic/demo', body: data.text });
     const message = data.text;
     this.selectedFile = data.file;
     if(this.messageService.isModifying()){
