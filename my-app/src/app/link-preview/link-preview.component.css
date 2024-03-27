@@ -1,0 +1,12 @@
+.link-preview {
+    display: flex;
+    max-width: 100%;
+  }
+  
+  .link-preview .preview-image {
+    max-width: 50px; /* Adjust as needed */
+    max-height: 30px; /* Adjust as needed */
+
+    height: auto;
+  }
+  

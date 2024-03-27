@@ -1,8 +1,12 @@
-<div class="link-preview">
-    <a [href]="url" target="_blank">
-      <img [src]="image" alt="Link Preview" />
-      <p>{{ title }}</p>
-      <p>{{ description }}</p>
-    </a>
+<div class="small-link-preview img">
+  <a [href]="url" target="_blank" class="link">
+    <div class="image-container">
+      <img [src]="image" alt="Link Preview Image" class="preview-image">
+    </div>
+    <div class="details">
+      <p class="description">{{ description }}</p>
+      <p class="url">{{ url }}</p>
+    </div>
+  </a>
   </div>
   

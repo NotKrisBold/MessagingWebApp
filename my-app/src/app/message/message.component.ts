@@ -38,7 +38,6 @@ export class MessageComponent {
     this.isCurrentUser = this.message.author === this.currentUser;
     this.linkPreviewService.fetchLinkPreviews(this.message.body)?.subscribe(linkPreview => {
       this.linkPreview = linkPreview;
-      console.log("LINKPREVIEW", this.linkPreview);
     })
   }
 

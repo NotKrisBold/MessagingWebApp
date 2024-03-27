@@ -118,4 +118,8 @@
   background-color: rgb(180, 180, 255);
   color: rgb(0, 0, 0); /* Text color */
 }
+.link-preview {
+  display: flex;
+  max-width: 100%;
+}
 
