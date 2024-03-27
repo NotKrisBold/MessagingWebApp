@@ -25,4 +25,12 @@
     <div class="message-time">
         {{ message.date | date: 'medium' }}
     </div>
+    <div *ngIf="linkPreview">
+        <app-link-preview 
+        [url]="linkPreview.url"
+        [description]="linkPreview.description"
+        [image]="linkPreview.image"
+        [error]="linkPreview.error">
+      </app-link-preview>
+    </div>
 </div>

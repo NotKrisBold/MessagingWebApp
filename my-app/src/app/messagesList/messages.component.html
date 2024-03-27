@@ -95,6 +95,15 @@
 
                       </li>
                     </ng-template>
+                    <div *ngIf="message.linkPreview">
+                        <app-link-preview 
+                        [url]="message.linkPreview.url"
+                        [description]="message.linkPreview.description"
+                        [image]="message.linkPreview.image"
+                        [error]="message.linkPreview.error"
+                        >
+                      </app-link-preview>
+                    </div>
                   </div>
                 </ul>
 

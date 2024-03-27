@@ -126,5 +126,7 @@ export class MessagesComponent implements OnInit {
   getMessageById(id: string): Message | undefined {
     return this.messages.find(message => message.id === id);
   }
+  
 }
+
 

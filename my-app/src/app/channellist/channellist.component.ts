@@ -4,8 +4,6 @@ import { ChannelserviceService } from '../services/channelservice.service';
 import { RouterLink, RouterModule } from '@angular/router';
 import { NgFor } from '@angular/common';
 
-
-
 @Component({
   selector: 'app-channellist',
   standalone: true,
