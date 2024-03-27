@@ -4,8 +4,8 @@
   }
   
   .link-preview .preview-image {
-    max-width: 50px; /* Adjust as needed */
-    max-height: 30px; /* Adjust as needed */
+    max-width: 500px; /* Adjust as needed */
+    max-height: 300px; /* Adjust as needed */
 
     height: auto;
   }

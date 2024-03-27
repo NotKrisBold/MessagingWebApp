@@ -10,21 +10,21 @@
                 <div class="replied-content">{{ getMessageById(message.parentMessageId)?.body }}</div>
             </div>
         </div>
-        <div *ngIf="linkPreview" class="    link-preview">
+        <div *ngIf="linkPreview" class="link-preview">
             <app-link-preview 
-            [url]="linkPreview.url"
-            [description]="linkPreview.description"
-            [image]="linkPreview.image"
-            [error]="linkPreview.error">
-          </app-link-preview>
+                [url]="linkPreview.url"
+                [description]="linkPreview.description"
+                [image]="linkPreview.image"
+                [error]="linkPreview.error">
+            </app-link-preview>
         </div>
-        {{ message.body }}
+        <!-- Render the message body -->
+        <div [innerHTML]="sanitizeMessageBody(message.body)"></div>
         <span class="modification-indicator" *ngIf="message.date !== message.lastEditTime">(modified)</span>
         <div class="message-actions"
             [ngClass]="{'message-actions-left': !isCurrentUser, 'message-actions-right': isCurrentUser}">
             <button class="btn btn-success btn-sm reply-button" (click)="reply(message.id)">Reply</button>
-            <button *ngIf="isCurrentUser" class="btn btn-primary btn-sm modify-button"
-                (click)="modify(message.id)">Modify</button>
+            <button *ngIf="isCurrentUser" class="btn btn-primary btn-sm modify-button" (click)="modify(message.id)">Modify</button>
         </div>
         <div class="message-attachment" *ngIf="message.attachment">
             <a href="{{ message.attachment.url }}" target="_blank">{{ message.attachment.title }}</a>

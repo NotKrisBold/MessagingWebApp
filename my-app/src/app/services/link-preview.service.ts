@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import * as cheerio from 'cheerio';
 import { LinkPreview } from '../models/link-preview';
@@ -13,19 +13,19 @@ export class LinkPreviewService {
   private getLinkPreview(url: string): Observable<LinkPreview> {
     return this.http.get(url, { responseType: 'text' })
       .pipe(
-        map((html: string) => this.extractOpenGraphData(html))
+        map((html: string) => this.extractOpenGraphData(html, url))
       );
   }
 
-  private extractOpenGraphData(html: string): LinkPreview {
+  private extractOpenGraphData(html: string, url: string): LinkPreview {
     const $ = cheerio.load(html);
     const title = $('meta[property="og:title"]').attr('content');
     const description = $('meta[property="og:description"]').attr('content');
     const image = $('meta[property="og:image"]').attr('content');
-    return new LinkPreview(title, description, image, undefined);
+    return new LinkPreview(title, description, image, url);
   }
 
-  fetchLinkPreviews(messageBody : string): Observable<LinkPreview> | undefined{
+  fetchLinkPreviews(messageBody: string): Observable<LinkPreview> | undefined {
     const link = this.extractLink(messageBody);
     if (link) { 
       return this.getLinkPreview(link);
@@ -49,5 +49,3 @@ export class LinkPreviewService {
     }
   }
 }
-
-

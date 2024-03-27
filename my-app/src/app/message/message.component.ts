@@ -6,6 +6,7 @@ import { MessageServiceService } from '../services/message-service.service';
 import { LinkPreviewComponent } from "../link-preview/link-preview.component";
 import { LinkPreviewService } from '../services/link-preview.service';
 import { LinkPreview } from '../models/link-preview';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class MessageComponent {
 
   constructor(
     private messageService: MessageServiceService,
-    private linkPreviewService: LinkPreviewService
+    private linkPreviewService: LinkPreviewService,
+    private sanitizer: DomSanitizer
     ) {}
 
   ngOnInit() {
@@ -50,6 +52,20 @@ export class MessageComponent {
     this.messageService.setModifying(true);
     this.messageService.setReplyingTo(id);
   }
+
+  sanitizeMessageBody(body: string): SafeHtml {
+     // Regular expression to match URLs
+     const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+     // Replace URLs with anchor tags
+     const sanitizedBody = body.replace(urlRegex, (url) => {
+       return `<a href="${url}" target="_blank">${url}</a>`;
+     });
+ 
+     // Sanitize the modified body to make it safe HTML
+     return this.sanitizer.bypassSecurityTrustHtml(sanitizedBody);
+   }
 }
+
 
 
