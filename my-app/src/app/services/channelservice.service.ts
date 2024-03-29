@@ -35,10 +35,4 @@ export class ChannelserviceService {
   getCurrentChannel(): Observable<Channel | undefined> {
     return this.currentChannel$;
   }
-
-  /*
-  getChannels(): Observable<Channel[]> {
-    return this.HttpClient.get<Channel[]>(this.channelUrl);
-  }
-  */
 }
