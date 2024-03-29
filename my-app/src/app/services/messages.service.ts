@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { ChannelserviceService } from './channelservice.service';
 import { MessageServiceService } from './message-service.service';
 import { Message } from '../models/message';
@@ -27,11 +27,19 @@ export class MessagesService {
           tap(messages => messages.length ?
              this.log(`found messages matching "${term}"`) :
              this.log(`no messages matching "${term}"`)),
-          catchError(this.handleError<Message[]>('searchHeroes', []))
+          catchError(this.handleError<Message[]>('searchHeroes', [])),
+          switchMap(messages => {
+            const filteredMessages = messages.filter(message => message.body.includes(term));
+            const sortedMessages = filteredMessages.sort((a, b) => {
+              return new Date(a.date).getTime() - new Date(b.date).getTime();
+            });
+            return of(sortedMessages);
+          })
         );
       })
     );
   }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

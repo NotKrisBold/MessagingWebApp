@@ -130,7 +130,7 @@
           <div class="modal-content">
             <div class="modal-body" style="background-color: rgba(255, 251, 215, 0.336);">
               <div class="msg-body">
-                <ul>
+                <ul #messageContainer>
                   <div *ngFor="let message of messages">
                     <div *ngIf="message.author != authorMessage; else elseBlock">
                       <app-message [message]="message" [currentUser]="authorMessage" [getMessageById]="getMessageById" 
