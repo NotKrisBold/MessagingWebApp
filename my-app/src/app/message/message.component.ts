@@ -19,7 +19,9 @@ export class MessageComponent implements OnInit{
   currentUser!: string;
   @Input()
   parentMessage: Message | undefined;
-  
+  isReplying=false;
+  isModifying=false;
+
   isCurrentUser: boolean = false;
 
   constructor(private messageService: MessageServiceService) {
@@ -32,12 +34,26 @@ export class MessageComponent implements OnInit{
 
   
   reply(id: string){
-    this.messageService.setReplying(true);
-    this.messageService.setReplyingTo(id);
+    this.isReplying = !this.isReplying;
+    if(this.isReplying){
+      this.messageService.setReplying(true);
+      this.messageService.setReplyingTo(id);
+    }else{
+      this.messageService.setReplying(false);
+      this.messageService.setReplyingTo("");
+    }
   }
 
   modify(id:string){
-    this.messageService.setModifying(true);
-    this.messageService.setReplyingTo(id);
+    this.isModifying = !this.isModifying;
+    if(this.isModifying){
+      this.messageService.setModifying(true);
+      this.messageService.setReplyingTo(id);
+    }else{
+      this.messageService.setModifying(false);
+      this.messageService.setReplyingTo("");
+    }
+    
+    
   }
 }

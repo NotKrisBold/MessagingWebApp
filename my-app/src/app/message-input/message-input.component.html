@@ -1,5 +1,7 @@
 <div class="message-input">
     <textarea [(ngModel)]="messageText" placeholder="Type your message..."></textarea>
-    <input type="file" (change)="onFileSelected($event)">
-    <button (click)="sendMessage()">Send</button>
+    <div class="file-button-container">
+        <input type="file" (change)="onFileSelected($event)">
+        <button (click)="sendMessage()">Send</button>
+    </div>
 </div>
