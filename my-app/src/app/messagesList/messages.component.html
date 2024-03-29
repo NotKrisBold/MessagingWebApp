@@ -7,7 +7,7 @@
   <button *ngIf="showScrollButton" class="scroll-down-button" (click)="scrollToBottomSmoothly()">
     <i class="fas fa-arrow-down"></i>
   </button>
-  <div *ngIf="showNewMessageIndicator" class="new-message-indicator">  New Message</div>  
+  <div *ngIf="showNewMessageIndicator" class="new-message-indicator">  New Message </div>  
   <div class="message-input">
     <app-message-input (messageSent)="onSubmit($event)"></app-message-input>
   </div>

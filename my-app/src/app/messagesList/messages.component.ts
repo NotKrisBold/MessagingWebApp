@@ -33,7 +33,6 @@ export class MessagesComponent implements OnInit, AfterViewInit {
   showConfirmationMessage = false;
 
   constructor(
-    private cdr: ChangeDetectorRef,
     private messageService: MessageServiceService,
     private channelService: ChannelserviceService,
     private webSocketService: WebSocketService
@@ -43,26 +42,23 @@ export class MessagesComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
+    this.subscribeToWebSocket();
+    this.getCurrentChannelMessages();
+  }
+
+  private subscribeToWebSocket(): void {
     this.webSocketService.getMessageSubject().subscribe((message: Message) => {
       const existingMessageIndex = this.messages.findIndex(m => m.id === message.id);
       if (existingMessageIndex !== -1) {
-        // If the message exists, update it with the new data
         this.messages[existingMessageIndex] = message;
       } else {
-        // If the message doesn't exist, add it to the array
         this.messages.push(message);
         this.showNewMessageIndicator = true;
       }
-
-      
     });
+  }
 
-    this.webSocketService.getMessageSubject().subscribe((message: Message) => {
-    });
-
-    console.log("authore messages", this.authorMessage);
-    this.selectedFile ? this.selectedFile : new Blob();
-
+  private getCurrentChannelMessages(): void {
     this.channelService.getCurrentChannel().subscribe(channel => {
       if (channel?.id) {
         this.channelId = channel.id;
@@ -75,17 +71,17 @@ export class MessagesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.messageList.nativeElement.addEventListener('scroll', () => {
-      this.updateScrollButtonVisibility();
+      this.updateScrollButtonVisibilityAndNewMessageIndicator();
     });
   }
 
-  updateScrollButtonVisibility(): void {
+  private updateScrollButtonVisibilityAndNewMessageIndicator(): void {
     const messageListElement: HTMLElement = this.messageList.nativeElement;
     const isAtBottom = messageListElement.scrollHeight - messageListElement.scrollTop <= messageListElement.clientHeight;
     this.showScrollButton = !isAtBottom;
-    if(this.showNewMessageIndicator)
+    if (this.showNewMessageIndicator)
       this.showNewMessageIndicator = !isAtBottom;
-}
+  }
 
 
   scrollToBottomSmoothly(): void {
@@ -97,13 +93,7 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     } catch (err) { }
   }
 
-  onMessageListScroll(): void {
-    const messageListElement: HTMLElement = this.messageList.nativeElement;
-    // Check if the user is not at the bottom of the message list
-    this.showScrollButton = messageListElement.scrollHeight - messageListElement.scrollTop > messageListElement.clientHeight;
-  }
-
-  getChannelMessages(): void {
+  private getChannelMessages(): void {
     this.messageService.getChannelMessages(this.channelId)
       .subscribe(messages => {
         this.messages = messages
