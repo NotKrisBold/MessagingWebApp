@@ -44,8 +44,17 @@ export class MessagesComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.webSocketService.getMessageSubject().subscribe((message: Message) => {
-      this.messages.push(message);
-      this.showNewMessageIndicator = true;
+      const existingMessageIndex = this.messages.findIndex(m => m.id === message.id);
+      if (existingMessageIndex !== -1) {
+        // If the message exists, update it with the new data
+        this.messages[existingMessageIndex] = message;
+      } else {
+        // If the message doesn't exist, add it to the array
+        this.messages.push(message);
+        this.showNewMessageIndicator = true;
+      }
+
+      
     });
 
     this.webSocketService.getMessageSubject().subscribe((message: Message) => {
