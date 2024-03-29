@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Message } from '../models/message';
 import { CommonModule } from '@angular/common';
 import { MessagesComponent } from '../messagesList/messages.component';
@@ -16,17 +16,16 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     styleUrl: './message.component.css',
     imports: [CommonModule, MessagesComponent, LinkPreviewComponent]
 })
-export class MessageComponent {
+export class MessageComponent implements OnInit {
   @Input()
   message!: Message;
   @Input()
-  messages!: Message[];
-  @Input()
   currentUser!: string;
   @Input()
-  getMessageById!: Function;
+  parentMessage: Message | undefined;
+  isReplying = false;
   linkPreview: LinkPreview | undefined;
-  
+  isModifying = false;
 
   isCurrentUser: boolean = false;
 
@@ -38,19 +37,41 @@ export class MessageComponent {
 
   ngOnInit() {
     this.isCurrentUser = this.message.author === this.currentUser;
-    this.linkPreviewService.fetchLinkPreviews(this.message.body)?.subscribe(linkPreview => {
-      this.linkPreview = linkPreview;
-    })
   }
 
-  reply(id: string){
-    this.messageService.setReplying(true);
-    this.messageService.setReplyingTo(id);
+  deactivateButtons(event: MouseEvent){
+    const activeButtons = document.querySelectorAll('.active');
+    activeButtons.forEach(button => {
+      if (button !== event.target) {
+        button.classList.remove('active');
+      }
+    });
   }
 
-  modify(id:string){
-    this.messageService.setModifying(true);
-    this.messageService.setReplyingTo(id);
+  reply(event: MouseEvent) {
+    this.deactivateButtons(event);
+    this.isReplying = !this.isReplying;
+    if (this.isReplying) {
+      this.isModifying = false;
+      this.messageService.setModifying(false);
+      this.messageService.setReplying(true);
+      this.messageService.setReplyingTo(this.message.id);
+    }else{
+      this.messageService.setReplying(false);
+    }
+  }
+
+  modify(event: MouseEvent) {
+    this.deactivateButtons(event);
+    this.isModifying = !this.isModifying;
+    if (this.isModifying) {
+      this.isReplying = false;
+      this.messageService.setReplying(false);
+      this.messageService.setModifying(true);
+      this.messageService.setReplyingTo(this.message.id);
+    } else {
+      this.messageService.setModifying(false);
+    }
   }
 
   sanitizeMessageBody(body: string): SafeHtml {

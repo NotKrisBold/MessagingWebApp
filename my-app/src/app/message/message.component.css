@@ -24,7 +24,6 @@
 
 .sent .message-content {
   background-color: rgb(255, 246, 192);
-  /* Background color for sent messages */
 }
 
 .received .message-content,
@@ -34,7 +33,6 @@
 
 .received .message-content {
   background-color: #c9e7e7;
-  /* Background color for received messages */
 }
 
 .message-content {
@@ -107,16 +105,18 @@
 .reply-button,
 .modify-button {
   margin-right: 5px; /* Adjust spacing between buttons */
+  border: none;
 }
 
-.reply-button {
-  background-color: rgb(158, 255, 139);
-  color: rgb(0, 0, 0); /* Text color */
+.reply-button:hover,
+.modify-button:hover {
+  background-color: #000326; 
 }
 
-.modify-button {
-  background-color: rgb(180, 180, 255);
-  color: rgb(0, 0, 0); /* Text color */
+
+
+.active {
+  background-color: #000326;
 }
 .link-preview {
   display: flex;

@@ -6,8 +6,8 @@
         <div *ngIf="message.parentMessageId"
             [ngClass]="{'replied-content-sender': isCurrentUser, 'replied-content-other': !isCurrentUser}">
             <div class="replied-message">
-                <span class="replied-author">{{ getMessageById(message.parentMessageId)?.author }}</span>
-                <div class="replied-content">{{ getMessageById(message.parentMessageId)?.body }}</div>
+                <span class="replied-author">{{ parentMessage?.author }}</span>
+                <div class="replied-content">{{ parentMessage?.body }}</div>
             </div>
         </div>
         <div *ngIf="linkPreview" class="link-preview">
@@ -20,14 +20,14 @@
         </div>
         <!-- Render the message body -->
         <div [innerHTML]="sanitizeMessageBody(message.body)"></div>
+        <div class="message-attachment" *ngIf="message.attachment">
+            <a href="{{ message.attachment.url }}" target="_blank">{{ message.attachment.title }}</a>
+        </div>
         <span class="modification-indicator" *ngIf="message.date !== message.lastEditTime">(modified)</span>
         <div class="message-actions"
             [ngClass]="{'message-actions-left': !isCurrentUser, 'message-actions-right': isCurrentUser}">
-            <button class="btn btn-success btn-sm reply-button" (click)="reply(message.id)">Reply</button>
-            <button *ngIf="isCurrentUser" class="btn btn-primary btn-sm modify-button" (click)="modify(message.id)">Modify</button>
-        </div>
-        <div class="message-attachment" *ngIf="message.attachment">
-            <a href="{{ message.attachment.url }}" target="_blank">{{ message.attachment.title }}</a>
+            <button type="button" class="reply-button btn btn-primary" (click)="reply($event)" [class.active]="isReplying">Reply</button>
+            <button *ngIf="isCurrentUser" class="modify-button btn btn-primary" (click)="modify($event)" [class.active]="isModifying">Modify</button>
         </div>
     </div>
     <div class="message-time">

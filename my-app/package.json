@@ -21,8 +21,10 @@
     "@stomp/ng2-stompjs": "^8.0.0",
     "@stomp/stompjs": "^7.0.0",
     "bootstrap": "^5.3.3",
+    "ngx-toastr": "^18.0.0",
     "cheerio": "^1.0.0-rc.12",
     "rxjs": "~7.8.0",
+    "socket.io": "^4.7.5",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },

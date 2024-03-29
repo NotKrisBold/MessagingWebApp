@@ -14,11 +14,13 @@ import { NgFor } from '@angular/common';
 export class ChannellistComponent {
 
   channels: Channel[] = [];
+  currentChannel: Channel | undefined;
 
   constructor(private service: ChannelserviceService) { }
 
   ngOnInit() {
     this.getChannels();
+    this.service.getCurrentChannel().subscribe(channel => this.currentChannel = channel);
   }
 
   getChannels(): void {

@@ -7,10 +7,10 @@ import { Channel } from '../models/channel';
   providedIn: 'root'
 })
 export class ChannelserviceService {
-  private currentChannel: Channel | undefined;
+
   public currentChannel$: Observable<Channel | undefined>;
   private currentChannelSubject: BehaviorSubject<Channel | undefined>;
-  private channelUrl = 'https://supsi-ticket.cloudns.org/supsi-chat/bff/channels';
+  private url = '';
 
   constructor(private httpClient: HttpClient) {
     this.currentChannelSubject = new BehaviorSubject<Channel | undefined>(undefined);
@@ -18,7 +18,7 @@ export class ChannelserviceService {
   }
 
   getChannels(): Observable<Channel[]> {
-    return this.httpClient.get<Channel[]>(this.channelUrl).pipe(
+    return this.httpClient.get<Channel[]>(`${this.url}/channels`).pipe(
       tap(channels => {
         if (channels && channels.length > 0) {
           this.setCurrentChannel(channels[0]); // Set the first channel as the current one
@@ -28,7 +28,6 @@ export class ChannelserviceService {
   }
 
   setCurrentChannel(channel: Channel | undefined): void {
-    this.currentChannel = channel;
     this.currentChannelSubject.next(channel); // Notify subscribers about the change
   }
 
@@ -36,9 +35,8 @@ export class ChannelserviceService {
     return this.currentChannel$;
   }
 
-  /*
-  getChannels(): Observable<Channel[]> {
-    return this.HttpClient.get<Channel[]>(this.channelUrl);
+  setUrl(url: string){
+    this.url = url;
   }
-  */
+ 
 }
