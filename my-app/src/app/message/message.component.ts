@@ -35,9 +35,12 @@ export class MessageComponent implements OnInit {
     private sanitizer: DomSanitizer
     ) {}
 
-  ngOnInit() {
-    this.isCurrentUser = this.message.author === this.currentUser;
-  }
+    ngOnInit() {
+      this.isCurrentUser = this.message.author === this.currentUser;
+      this.linkPreviewService.fetchLinkPreviews(this.message.body)?.subscribe(linkPreview => {
+        this.linkPreview = linkPreview;
+      })
+    }
 
   deactivateButtons(event: MouseEvent){
     const activeButtons = document.querySelectorAll('.active');

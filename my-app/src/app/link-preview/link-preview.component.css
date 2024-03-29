@@ -1,11 +1,11 @@
 .link-preview {
-    display: flex;
+    display: block;
     max-width: 100%;
   }
   
   .link-preview .preview-image {
-    max-width: 500px; /* Adjust as needed */
-    max-height: 300px; /* Adjust as needed */
+    max-width: 100%; /* Adjust as needed */
+    max-height: 100%; /* Adjust as needed */
 
     height: auto;
   }
