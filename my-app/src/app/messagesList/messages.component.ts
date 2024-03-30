@@ -10,6 +10,7 @@ import { MessageInputComponent } from "../message-input/message-input.component"
 import { ChannelserviceService } from '../services/channelservice.service';
 import { MessageComponent } from '../message/message.component';
 import { WebSocketService } from '../services/web-socket.service';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 @Component({
   selector: 'app-messages',
   standalone: true,
@@ -31,6 +32,9 @@ export class MessagesComponent implements OnInit, AfterViewInit {
   showScrollButton: boolean = false;
   showNewMessageIndicator = false;
   showConfirmationMessage = false;
+  filteredMessages: Message[] = [];
+  searchTerms: Subject<string> = new Subject<string>();
+  isSearching = false;
 
   constructor(
     private messageService: MessageServiceService,
@@ -67,6 +71,17 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     }, (error) => {
       console.error('Error loading messages:', error);
     });
+  }
+
+  search(event: Event): void {
+    if((event.target as HTMLInputElement).value){
+    this.isSearching = true;
+    const term = (event.target as HTMLInputElement).value;
+    this.filteredMessages = this.messages.filter(message =>
+      message.author.toLowerCase().includes(term.toLowerCase()) ||
+      message.body.toLowerCase().includes(term.toLowerCase())
+    );
+    }else this.isSearching = false;
   }
 
   ngAfterViewInit(): void {
