@@ -152,3 +152,11 @@
       </div>
     </div>
   </div>
+  <input (input)="search($event)" placeholder="Search messages..." />
+  <ul>
+    <li *ngFor="let message of filteredMessages">
+      <app-message [message]="message" [currentUser]="authorMessage" [getMessageById]="getMessageById" 
+                        [messages]="messages">
+                      </app-message>
+    </li>
+  </ul>

@@ -9,6 +9,7 @@ import { MessageServiceService } from '../services/message-service.service';
 import { MessageInputComponent } from "../message-input/message-input.component";
 import { ChannelserviceService } from '../services/channelservice.service';
 import { MessageComponent } from '../message/message.component';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 @Component({
     selector: 'app-messages',
     standalone: true,
@@ -25,6 +26,8 @@ export class MessagesComponent implements OnInit {
   selectedFile: File | null = null;
   fileAttached: boolean = false;
   channelId: number = 0;
+  filteredMessages: Message[] = [];
+  searchTerms: Subject<string> = new Subject<string>();
 
   constructor(
     private route: ActivatedRoute,
@@ -45,6 +48,35 @@ export class MessagesComponent implements OnInit {
     }, (error) => {
       console.error('Error loading messages:', error);
     });
+
+    // Subscribe to search terms to trigger search when a term is emitted
+    this.searchTerms.pipe(
+      debounceTime(300), // Wait for 300ms after user stops typing
+      distinctUntilChanged() // Only trigger search if the term has changed
+    ).subscribe(term => {
+      this.filterMessages(term);
+    });
+  }
+
+  filterMessages(term: string): void {
+    if (!term.trim()) {
+      // If the search term is empty, display all messages
+      this.filteredMessages = [...this.messages];
+      return;
+    }
+
+    // Filter messages based on the search term
+    this.filteredMessages = this.messages.filter(message =>
+      message.author.toLowerCase().includes(term.toLowerCase()) ||
+      message.body.toLowerCase().includes(term.toLowerCase())
+    );
+  }
+  search(event: Event): void {
+    const term = (event.target as HTMLInputElement).value;
+    this.filteredMessages = this.messages.filter(message =>
+      message.author.toLowerCase().includes(term.toLowerCase()) ||
+      message.body.toLowerCase().includes(term.toLowerCase())
+    );
   }
 
   getChannelMessages(): void {

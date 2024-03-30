@@ -32,7 +32,7 @@ export class NavComponent implements OnInit {
       distinctUntilChanged(),
 
       // switch to new search observable each time the term changes
-      switchMap((term: string) => this.messagesService.searchHeroes(term)),
+      switchMap((term: string) => this.messagesService.searchMessages(term)),
     );
 
     // Subscribe to messages$ and scroll to the first message

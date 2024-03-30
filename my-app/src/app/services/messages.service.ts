@@ -17,7 +17,7 @@ export class MessagesService {
     private messageService: MessageServiceService
   ) { }
 
-  searchHeroes(term: string): Observable<Message[]> {
+  searchMessages(term: string): Observable<Message[]> {
     return this.channelService.getCurrentChannel().pipe(
       switchMap(currentChannel => {
         if (!term.trim() || currentChannel === undefined) {
