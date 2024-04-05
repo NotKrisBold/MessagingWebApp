@@ -6,8 +6,6 @@ import { RouterOutlet } from '@angular/router';
 import { MessageServiceService } from '../services/message-service.service';
 import { MessageInputComponent } from '../message-input/message-input.component';
 import { ChannelserviceService } from '../services/channelservice.service';
-import { WebSocketService } from '../services/web-socket.service';
-
 
 @Component({
   selector: 'app-chat',
