@@ -32,9 +32,8 @@ export class MessagesComponent implements OnInit, AfterViewInit {
   showScrollButton: boolean = false;
   showNewMessageIndicator = false;
   showConfirmationMessage = false;
-  filteredMessages: Message[] = [];
+  messagesToDisplay: Message[] = [];
   searchTerms: Subject<string> = new Subject<string>();
-  isSearching = false;
 
   constructor(
     private messageService: MessageServiceService,
@@ -42,8 +41,6 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     private webSocketService: WebSocketService
   ) {
   }
-
-
 
   ngOnInit(): void {
     this.subscribeToWebSocket();
@@ -75,13 +72,16 @@ export class MessagesComponent implements OnInit, AfterViewInit {
 
   search(event: Event): void {
     if((event.target as HTMLInputElement).value){
-    this.isSearching = true;
     const term = (event.target as HTMLInputElement).value;
-    this.filteredMessages = this.messages.filter(message =>
+    this.messagesToDisplay = this.messages.filter(message =>
       message.author.toLowerCase().includes(term.toLowerCase()) ||
       message.body.toLowerCase().includes(term.toLowerCase())
     );
-    }else this.isSearching = false;
+    console.log(this.messagesToDisplay)
+    }
+    else{
+      this.messagesToDisplay = this.messages;
+    } 
   }
 
   ngAfterViewInit(): void {
@@ -98,7 +98,6 @@ export class MessagesComponent implements OnInit, AfterViewInit {
       this.showNewMessageIndicator = !isAtBottom;
   }
 
-
   scrollToBottomSmoothly(): void {
     try {
       this.messageList.nativeElement.scrollTo({
@@ -112,6 +111,7 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     this.messageService.getChannelMessages(this.channelId)
       .subscribe(messages => {
         this.messages = messages
+        this.messagesToDisplay = messages
       });
   }
 

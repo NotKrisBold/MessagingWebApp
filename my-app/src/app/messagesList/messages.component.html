@@ -1,12 +1,7 @@
 <div class="chat-container">
   <input (input)="search($event)" placeholder="Search messages..." class="search-bar" />
-  <div *ngIf="!isSearching" class="message-list" #messageList>
-    <app-message *ngFor="let message of messages" [message]="message" [currentUser]="authorMessage"
-      [parentMessage]="getMessageById(message.parentMessageId)" >
-    </app-message>
-  </div>
-  <div *ngIf="isSearching" class="message-list" #messageList>
-    <app-message *ngFor="let message of filteredMessages" [message]="message" [currentUser]="authorMessage" [parentMessage]="getMessageById(message.parentMessageId)" >
+  <div class="message-list" #messageList>
+    <app-message *ngFor="let message of messagesToDisplay" [message]="message" [currentUser]="authorMessage" [parentMessage]="getMessageById(message.parentMessageId)" >
     </app-message>
   </div>
   <button *ngIf="showScrollButton" class="scroll-down-button" (click)="scrollToBottomSmoothly()">
