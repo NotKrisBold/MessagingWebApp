@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { catchError, filter, switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { ChannelserviceService } from './channelservice.service';
 import { MessageServiceService } from './message-service.service';
 import { Message } from '../models/message';
@@ -12,7 +11,6 @@ import { Message } from '../models/message';
 export class MessagesService {
   
   constructor(
-    private http: HttpClient,
     private channelService: ChannelserviceService,
     private messageService: MessageServiceService
   ) { }

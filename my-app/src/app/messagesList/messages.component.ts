@@ -10,13 +10,17 @@ import { MessageInputComponent } from "../message-input/message-input.component"
 import { ChannelserviceService } from '../services/channelservice.service';
 import { MessageComponent } from '../message/message.component';
 import { WebSocketService } from '../services/web-socket.service';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Subject } from 'rxjs';
+import { ToastComponent } from '../toast/toast.component';
+import { ToastService } from '../services/toast.service';
+
 @Component({
   selector: 'app-messages',
   standalone: true,
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css',
-  imports: [HttpClientModule, NgIf, CommonModule, RouterModule, MessageInputComponent, MessageComponent]
+  imports: [HttpClientModule, NgIf, CommonModule, RouterModule, MessageInputComponent, MessageComponent,ToastComponent],
+  providers: [ToastService],
 })
 
 export class MessagesComponent implements OnInit, AfterViewInit {
@@ -39,15 +43,24 @@ export class MessagesComponent implements OnInit, AfterViewInit {
   constructor(
     private messageService: MessageServiceService,
     private channelService: ChannelserviceService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private toastService: ToastService
   ) {
   }
 
-
-
+  showToast(msg:Message){
+    this.toastService.showToast(msg);
+  }
+  
   ngOnInit(): void {
     this.subscribeToWebSocket();
     this.getCurrentChannelMessages();
+  }
+
+  ngAfterViewInit(): void {
+    this.messageList.nativeElement.addEventListener('scroll', () => {
+      this.updateScrollButtonVisibilityAndNewMessageIndicator();
+    });
   }
 
   private subscribeToWebSocket(): void {
@@ -58,6 +71,7 @@ export class MessagesComponent implements OnInit, AfterViewInit {
       } else {
         this.messages.push(message);
         this.showNewMessageIndicator = true;
+        this.showToast(message);
       }
     });
   }
@@ -84,11 +98,7 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     }else this.isSearching = false;
   }
 
-  ngAfterViewInit(): void {
-    this.messageList.nativeElement.addEventListener('scroll', () => {
-      this.updateScrollButtonVisibilityAndNewMessageIndicator();
-    });
-  }
+
 
   private updateScrollButtonVisibilityAndNewMessageIndicator(): void {
     const messageListElement: HTMLElement = this.messageList.nativeElement;
@@ -112,6 +122,7 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     this.messageService.getChannelMessages(this.channelId)
       .subscribe(messages => {
         this.messages = messages
+        this.messages.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
       });
   }
 
@@ -149,8 +160,6 @@ export class MessagesComponent implements OnInit, AfterViewInit {
       const formdata = new FormData();
       formdata.append("message", new Blob([JSON.stringify(newMessage)], { type: 'application/json' }));
       formdata.append("attachment", this.selectedFile ? this.selectedFile : new Blob());
-      console.log(this.selectedFile);
-      formdata.forEach((data) => console.log(data));
       this.messageService.addMessage(formdata, this.channelId).subscribe();
       this.removeFile();
     }
@@ -169,12 +178,9 @@ export class MessagesComponent implements OnInit, AfterViewInit {
         1,
         this.selectedFile
       );
-      console.log("message id:", newMessage.id);
       const formdata = new FormData();
       formdata.append("message", new Blob([JSON.stringify(newMessage)], { type: 'application/json' }));
       formdata.append("attachment", this.selectedFile ? this.selectedFile : new Blob());
-      console.log(this.selectedFile);
-      formdata.forEach((data) => console.log(data));
       this.messageService.addMessage(formdata, this.channelId).subscribe();
       this.removeFile();
     }

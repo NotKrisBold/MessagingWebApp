@@ -28,9 +28,7 @@ export class MessageServiceService {
 
   updateMessage(id: string,body: string): Observable<object> {
     const url = `${this.url}messages/${id}/body?apiKey=${this.apiKey}`;
-    console.log(url);
     const newBody = { body } ;
-    console.log("updated");
     return this.HttpClient.put(url, newBody);
   }
 

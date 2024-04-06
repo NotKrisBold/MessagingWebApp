@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import * as cheerio from 'cheerio';
 import { LinkPreview } from '../models/link-preview';
 
@@ -13,7 +14,8 @@ export class LinkPreviewService {
   private getLinkPreview(url: string): Observable<LinkPreview> {
     return this.http.get(url, { responseType: 'text' })
       .pipe(
-        map((html: string) => this.extractOpenGraphData(html, url))
+        map((html: string) => this.extractOpenGraphData(html, url)),
+        catchError(() => EMPTY) // Ignora l'errore e restituisci un observable vuoto
       );
   }
 
@@ -25,7 +27,7 @@ export class LinkPreviewService {
     return new LinkPreview(title, description, image, url);
   }
 
-  fetchLinkPreviews(messageBody: string): Observable<LinkPreview> | undefined {
+  fetchLinkPreview(messageBody: string): Observable<LinkPreview> | undefined {
     const link = this.extractLink(messageBody);
     if (link) { 
       return this.getLinkPreview(link);
@@ -34,18 +36,8 @@ export class LinkPreviewService {
   }
 
   private extractLink(message: string): string | null {
-    // Regular expression to match URLs
     const urlRegex = /(https?:\/\/[^\s]+)/g;
-
-    // Execute the regex on the message
     const matches = message.match(urlRegex);
-
-    // Check if any matches are found
-    if (matches && matches.length > 0) {
-      // Return the first match (assuming the message contains only one link)
-      return matches[0];
-    } else {
-      return null; // No link found in the message
-    }
+    return matches && matches.length > 0 ? matches[0] : null;
   }
 }

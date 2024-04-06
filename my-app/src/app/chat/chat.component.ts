@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ChannellistComponent } from '../channellist/channellist.component';
 import { MessagesComponent } from '../messagesList/messages.component';
 import { NavComponent } from '../nav/nav.component';
@@ -6,7 +6,6 @@ import { RouterOutlet } from '@angular/router';
 import { MessageServiceService } from '../services/message-service.service';
 import { MessageInputComponent } from '../message-input/message-input.component';
 import { ChannelserviceService } from '../services/channelservice.service';
-import { WebSocketService } from '../services/web-socket.service';
 
 
 @Component({
@@ -26,6 +25,7 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     console.log("author:", this.author);
     this.messageService.setUrl(this.url);
+    this.messageService.setAuthor(this.author);
     this.channelService.setUrl(this.url);
   }
 }

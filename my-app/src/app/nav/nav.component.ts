@@ -14,10 +14,10 @@ import { MessagesService } from '../services/messages.service';
 export class NavComponent implements OnInit {
   messages$!: Observable<Message[]>
   private searchTerms = new Subject<string>();
-
+  @Input() isVisible: boolean = false;
   @ViewChild('messageContainer') messageContainer!: ElementRef;
 
-  constructor(private messagesService: MessagesService) {}
+  constructor(private messagesService: MessagesService) { }
 
   search(term: string): void {
     this.searchTerms.next(term);
@@ -58,5 +58,5 @@ export class NavComponent implements OnInit {
     } else {
       console.log('Message container not found');
     }
-  }    @Input() isVisible: boolean = false;
+  } 
 }

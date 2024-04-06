@@ -1,0 +1,53 @@
+.custom-toast-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+  }
+  
+  .custom-toast-container {
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 300px;
+    min-height: 60px; /* Set a minimum height to accommodate the header and some content */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .custom-toast-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .custom-toast-header-text {
+    font-weight: bold;
+  }
+  
+  .custom-toast-divider {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 8px;
+  }
+  
+  .custom-toast-close {
+    cursor: pointer;
+    font-size: 18px;
+    color: #888888;
+    transition: color 0.2s ease;
+  }
+  
+  .custom-toast-close:hover {
+    color: #555555;
+  }
+  
+  .custom-toast-body {
+    font-size: 14px;
+    line-height: 1.4;
+    overflow-wrap: break-word; /* Enable word wrapping within the message body */
+    word-wrap: break-word;
+    word-break: break-word; /* Handle long words that exceed the container width */
+  }
+  
