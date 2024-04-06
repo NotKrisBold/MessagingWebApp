@@ -70,3 +70,16 @@
 .search-bar {
   width: 100%;
 }
+
+.chat-container {
+  position: relative; /* Ensure position context for absolute/fixed positioning */
+  /* Add other styles as needed */
+}
+
+.custom-toast-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000; /* Ensure it's above other content */
+}
+

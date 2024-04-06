@@ -1,0 +1,12 @@
+<div class="custom-toast-overlay" *ngIf="showToast">
+    <div class="custom-toast-container">
+      <div class="custom-toast-header">
+        <strong>{{ toastAuthor }}</strong>
+        <span class="custom-toast-close" (click)="closeToast()">&times;</span>
+      </div>
+      <div class="custom-toast-divider"></div>
+      <div class="custom-toast-body">
+        {{ toastBody }}
+      </div>
+    </div>
+  </div>

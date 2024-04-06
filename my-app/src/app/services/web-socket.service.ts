@@ -9,7 +9,6 @@ import { Subject } from 'rxjs';
 export class WebSocketService {
 
   private API_KEY = "boldini-elaidy"; // Replace this with your API key
-  private newMessageReceived: any = null;
   private messageSubject: Subject<Message>;
   private client: Client;
   constructor() { 
@@ -23,14 +22,12 @@ export class WebSocketService {
       // Subscribe to new messages
       this.client.subscribe(`/app/${this.API_KEY}/new-message`, (message) => {
         const newMessage: Message = JSON.parse(message.body);
-        console.log('New message received:', newMessage);
         this.messageSubject.next(newMessage);
       });
 
       // Subscribe to updated messages
       this.client.subscribe(`/app/${this.API_KEY}/update-message`, (message) => {
         const newMessage: Message = JSON.parse(message.body);
-        console.log('updated received:', newMessage);
         this.messageSubject.next(newMessage);
       });
     };
