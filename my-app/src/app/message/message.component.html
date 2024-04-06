@@ -19,7 +19,7 @@
             </app-link-preview>
         </div>
         <!-- Render the message body -->
-        <div [innerHTML]="sanitizeMessageBody(message.body)"></div>
+        <div [innerHTML]="sanitizeMessageBody(message.body)" (click)="onClickMessage()"></div>
         <div class="message-attachment" *ngIf="message.attachment">
             <a href="{{ message.attachment.url }}" target="_blank">{{ message.attachment.title }}</a>
         </div>

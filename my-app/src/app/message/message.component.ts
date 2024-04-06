@@ -7,7 +7,7 @@ import { LinkPreviewComponent } from "../link-preview/link-preview.component";
 import { LinkPreviewService } from '../services/link-preview.service';
 import { LinkPreview } from '../models/link-preview';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-
+import { MessageDetailService } from '../services/message-detail.service';
 
 @Component({
     selector: 'app-message',
@@ -23,6 +23,7 @@ export class MessageComponent implements OnInit {
   currentUser!: string;
   @Input()
   parentMessage: Message | undefined;
+  @Input() onMessageClick!: (message: Message) => void;
   isReplying = false;
   linkPreview: LinkPreview | undefined;
   isModifying = false;
@@ -32,15 +33,16 @@ export class MessageComponent implements OnInit {
   constructor(
     private messageService: MessageServiceService,
     private linkPreviewService: LinkPreviewService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public messageDetailService: MessageDetailService
     ) {}
 
-    ngOnInit() {
-      this.isCurrentUser = this.message.author === this.currentUser;
-      this.linkPreviewService.fetchLinkPreview(this.message.body)?.subscribe(linkPreview => {
-        this.linkPreview = linkPreview;
-      })
-    }
+  ngOnInit() {
+    this.isCurrentUser = this.message.author === this.currentUser;
+    this.linkPreviewService.fetchLinkPreview(this.message.body)?.subscribe(linkPreview => {
+      this.linkPreview = linkPreview;
+    })
+  }
 
   deactivateButtons(event: MouseEvent){
     const activeButtons = document.querySelectorAll('.active');
@@ -51,6 +53,10 @@ export class MessageComponent implements OnInit {
     });
   }
 
+  onClickMessage() {
+    this.onMessageClick(this.message);
+  }
+
   reply(event: MouseEvent) {
     this.deactivateButtons(event);
     this.isReplying = !this.isReplying;
@@ -59,7 +65,7 @@ export class MessageComponent implements OnInit {
       this.messageService.setModifying(false);
       this.messageService.setReplying(true);
       this.messageService.setReplyingTo(this.message.id);
-    }else{
+    } else {
       this.messageService.setReplying(false);
     }
   }
@@ -78,15 +84,15 @@ export class MessageComponent implements OnInit {
   }
 
   sanitizeMessageBody(body: string): SafeHtml {
-     // Regular expression to match URLs
-     const urlRegex = /(https?:\/\/[^\s]+)/g;
+    // Regular expression to match URLs
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
 
-     // Replace URLs with anchor tags
-     const sanitizedBody = body.replace(urlRegex, (url) => {
-       return `<a href="${url}" target="_blank">${url}</a>`;
-     });
- 
-     // Sanitize the modified body to make it safe HTML
-     return this.sanitizer.bypassSecurityTrustHtml(sanitizedBody);
-   }
+    // Replace URLs with anchor tags
+    const sanitizedBody = body.replace(urlRegex, (url) => {
+      return `<a href="${url}" target="_blank">${url}</a>`;
+    });
+
+    // Sanitize the modified body to make it safe HTML
+    return this.sanitizer.bypassSecurityTrustHtml(sanitizedBody);
+  }
 }

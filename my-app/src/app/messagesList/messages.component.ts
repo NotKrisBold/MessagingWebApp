@@ -38,6 +38,7 @@ export class MessagesComponent implements OnInit, AfterViewInit {
   showConfirmationMessage = false;
   messagesToDisplay: Message[] = [];
   searchTerms: Subject<string> = new Subject<string>();
+  @Input() onMessageClick!: (message: Message) => void;
 
   constructor(
     private messageService: MessageServiceService,
