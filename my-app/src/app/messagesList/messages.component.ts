@@ -1,5 +1,5 @@
 import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Channel } from '../models/channel';
 import { RouterModule } from '@angular/router';
 import { CommonModule, NgIf } from '@angular/common';
@@ -10,11 +10,11 @@ import { MessageInputComponent } from "../message-input/message-input.component"
 import { ChannelserviceService } from '../services/channelservice.service';
 import { MessageComponent } from '../message/message.component';
 import { WebSocketService } from '../services/web-socket.service';
-import { Subject } from 'rxjs';
 import { ToastComponent } from '../toast/toast.component';
 import { ToastService } from '../services/toast.service';
 import { UnreadmessageService } from '../services/unreadmessage.service';
-import { environment } from '../environment/environment';
+import { Subject, throwError } from 'rxjs'; // Import throwError
+import { catchError } from 'rxjs/operators'; // Import catchError
 
 
 @Component({
@@ -33,7 +33,6 @@ export class MessagesComponent implements OnInit, AfterViewInit {
   selectedFile: File | null = null;
   fileAttached: boolean = false;
   channelId: number = 0;
-  apiKey = environment;
   @ViewChild('messageList') messageList!: ElementRef;
   showScrollButton: boolean = false;
   showNewMessageIndicator = false;
@@ -47,14 +46,14 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     private channelService: ChannelserviceService,
     private webSocketService: WebSocketService,
     private toastService: ToastService,
-    private unreadService: UnreadmessageService
-  ) {
-  }
+    private unreadService: UnreadmessageService,
+    private http: HttpClient // Inject HttpClient
+  ) {}
 
-  showToast(msg:Message){
+  showToast(msg: Message): void {
     this.toastService.showToast(msg);
   }
-  
+
   ngOnInit(): void {
     this.subscribeToWebSocket();
     this.getCurrentChannelMessages();
@@ -74,48 +73,54 @@ export class MessagesComponent implements OnInit, AfterViewInit {
       } else {
         if (message.channel !== this.channelId) {
           this.unreadService.incrementUnreadCount(message.channel);
-        }
-        else{
+        } else {
           this.messages.push(message);
-          if(message.author != this.authorMessage)
+          if (message.author !== this.authorMessage) {
             this.showNewMessageIndicator = true;
+          }
         }
         this.showToast(message);
       }
+    }, (error) => {
+      console.error('WebSocket Error:', error);
+      // Handle WebSocket error (e.g., display error message)
     });
   }
 
   private getCurrentChannelMessages(): void {
-    this.channelService.getCurrentChannel().subscribe(channel => {
-      if (channel?.id) {
-        this.channelId = channel.id;
-        this.getChannelMessages();
-        this.unreadService.resetUnreadCount(channel.id);
+    this.channelService.getCurrentChannel().subscribe(
+      (channel: Channel | undefined) => {
+        if (channel?.id) {
+          this.channelId = channel.id;
+          this.getChannelMessages();
+          this.unreadService.resetUnreadCount(channel.id);
+        }
+      },
+      (error) => {
+        console.error('Error loading current channel:', error);
       }
-    }, (error) => {
-      console.error('Error loading messages:', error);
-    });
+    );
   }
 
   search(event: Event): void {
-    if((event.target as HTMLInputElement).value){
-    const term = (event.target as HTMLInputElement).value;
-    this.messagesToDisplay = this.messages.filter(message =>
-      message.author.toLowerCase().includes(term.toLowerCase()) ||
-      message.body.toLowerCase().includes(term.toLowerCase())
-    );
-    }
-    else{
+    if ((event.target as HTMLInputElement).value) {
+      const term = (event.target as HTMLInputElement).value;
+      this.messagesToDisplay = this.messages.filter(message =>
+        message.author.toLowerCase().includes(term.toLowerCase()) ||
+        message.body.toLowerCase().includes(term.toLowerCase())
+      );
+    } else {
       this.messagesToDisplay = this.messages;
-    } 
+    }
   }
 
   private updateScrollButtonVisibilityAndNewMessageIndicator(): void {
     const messageListElement: HTMLElement = this.messageList.nativeElement;
     const isAtBottom = messageListElement.scrollHeight - messageListElement.scrollTop <= messageListElement.clientHeight;
     this.showScrollButton = !isAtBottom;
-    if (this.showNewMessageIndicator)
+    if (this.showNewMessageIndicator) {
       this.showNewMessageIndicator = !isAtBottom;
+    }
   }
 
   scrollToBottomSmoothly(): void {
@@ -124,39 +129,45 @@ export class MessagesComponent implements OnInit, AfterViewInit {
         top: this.messageList.nativeElement.scrollHeight,
         behavior: 'smooth'
       });
-    } catch (err) { }
+    } catch (err) {
+      console.error('Error scrolling to bottom:', err);
+    }
   }
 
   private getChannelMessages(): void {
-    this.messageService.getChannelMessages(this.channelId)
-      .subscribe(messages => {
-        this.messages = messages
-        this.messages.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-        this.messagesToDisplay = messages;
-      });
+    this.messageService.getChannelMessages(this.channelId).pipe(
+      catchError((error) => {
+        console.error('Error loading channel messages:', error);
+        // Handle error (e.g., display error message)
+        return throwError('Failed to load channel messages.');
+      })
+    ).subscribe((messages: Message[]) => {
+      this.messages = messages;
+      this.messages.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      this.messagesToDisplay = messages;
+    });
   }
 
-  onSubmit(data: { text: string, file: File | null }) {
+  onSubmit(data: { text: string, file: File | null }): void {
     const message = data.text;
     this.selectedFile = data.file;
     if (this.messageService.isModifying()) {
       this.sendUpdateMessage(message);
       this.messageService.setModifying(false);
-    }
-    else if (this.messageService.isReplying()) {
+    } else if (this.messageService.isReplying()) {
       this.sendReplyMessage(message);
       this.messageService.setReplying(false);
-    }
-    else
+    } else {
       this.sendMessage(message);
+    }
   }
 
-  sendUpdateMessage(message: string) {
+  sendUpdateMessage(message: string): void {
     this.messageService.updateMessage(this.messageService.getReplyingTo(), message).subscribe();
   }
 
-  sendReplyMessage(message: string) {
-    if (message != "") {
+  sendReplyMessage(message: string): void {
+    if (message !== "") {
       const newMessage = new Message(
         uuidv4(),
         this.messageService.getReplyingTo(),
@@ -168,17 +179,16 @@ export class MessagesComponent implements OnInit, AfterViewInit {
         this.selectedFile,
         this.channelId
       );
-      const formdata = new FormData();
-      formdata.append("message", new Blob([JSON.stringify(newMessage)], { type: 'application/json' }));
-      formdata.append("attachment", this.selectedFile ? this.selectedFile : new Blob());
-      this.messageService.addMessage(formdata, this.channelId).subscribe();
+      const formData = new FormData();
+      formData.append("message", new Blob([JSON.stringify(newMessage)], { type: 'application/json' }));
+      formData.append("attachment", this.selectedFile ? this.selectedFile : new Blob());
+      this.messageService.addMessage(formData, this.channelId).subscribe();
       this.removeFile();
     }
-
   }
 
-  sendMessage(message: string) {
-    if (message != "") {
+  sendMessage(message: string): void {
+    if (message !== "") {
       const newMessage = new Message(
         uuidv4(),
         null,
@@ -190,15 +200,15 @@ export class MessagesComponent implements OnInit, AfterViewInit {
         this.selectedFile,
         this.channelId
       );
-      const formdata = new FormData();
-      formdata.append("message", new Blob([JSON.stringify(newMessage)], { type: 'application/json' }));
-      formdata.append("attachment", this.selectedFile ? this.selectedFile : new Blob());
-      this.messageService.addMessage(formdata, this.channelId).subscribe();
+      const formData = new FormData();
+      formData.append("message", new Blob([JSON.stringify(newMessage)], { type: 'application/json' }));
+      formData.append("attachment", this.selectedFile ? this.selectedFile : new Blob());
+      this.messageService.addMessage(formData, this.channelId).subscribe();
       this.removeFile();
     }
   }
 
-  removeFile() {
+  removeFile(): void {
     this.fileAttached = false;
     this.selectedFile = null;
   }
@@ -206,13 +216,7 @@ export class MessagesComponent implements OnInit, AfterViewInit {
   getMessageById(id: string | null): Message | undefined {
     if (!id) return undefined;
 
-    for (let i = 0; i < this.messages.length; i++) {
-      if (this.messages[i].id === id) {
-        return this.messages[i];
-      }
-    }
-
-    return undefined;
+    return this.messages.find(m => m.id === id);
   }
 
 }
