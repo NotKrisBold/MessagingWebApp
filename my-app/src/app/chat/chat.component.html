@@ -1,10 +1,12 @@
-<div class="overlay" *ngIf="messageDetailService.showMessageDetails"></div>
-<div class="custom-toast-container">
-  <app-message-details-modal *ngIf="messageDetailService.showMessageDetails" id="message-details"></app-message-details-modal>
-</div>
 <app-nav [isVisible]="search"></app-nav>
 <div class="chat">
-    <app-channellist  [showChannels]="channels"></app-channellist>
+  <div class="overlay" *ngIf="messageDetailService.showMessageDetails">
+    <div class="custom-toast-container">
+      <app-message-details-modal id="message-details"></app-message-details-modal>
+    </div>
+  </div>
+
+  <app-channellist  [showChannels]="channels"></app-channellist>
   <div class="messages-container">
     <router-outlet>
       <app-messages [authorMessage]="author" [onMessageClick]="onMessageClick"></app-messages>
