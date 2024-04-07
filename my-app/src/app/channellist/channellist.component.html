@@ -1,7 +1,9 @@
-@if (channels.length > 1) {
-<div class="channel-list">
-    <div *ngFor="let channel of channels" class="channel-item" (click)="changeChannel(channel.id)" [class.selected]="currentChannel?.id == channel.id">
+<div class="channel-list" *ngIf="channels.length > 1">
+    <div *ngFor="let channel of channels" class="channel-item" (click)="changeChannel(channel.id)"
+        [class.selected]="currentChannel?.id == channel.id">
         {{ channel.name }}
+        <span *ngIf="unreadMessageCounts[channel.id] > 0" class="badge">
+            {{ unreadMessageCounts[channel.id] }}
+        </span>
     </div>
 </div>
-}

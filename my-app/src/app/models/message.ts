@@ -6,7 +6,7 @@ export class Message {
     author: string;
     date: string;
     lastEditTime: string;
-    channelId: number;
+    channel: number;
     attachment: any;
 
     constructor(
@@ -16,7 +16,7 @@ export class Message {
         author: string,
         date: string,
         lastEditTime: string,
-        channelId: number,
+        channel: number,
         attachment: any,
     ) {
         this.id = id;
@@ -25,7 +25,7 @@ export class Message {
         this.author = author;
         this.date = date;
         this.lastEditTime = lastEditTime;
-        this.channelId = channelId;
+        this.channel = channel;
         this.attachment = attachment;
     }
 

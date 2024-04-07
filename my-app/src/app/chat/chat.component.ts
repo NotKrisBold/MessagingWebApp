@@ -10,6 +10,8 @@ import { Message } from '../models/message';
 import { MessageDetailsModalComponent } from '../message-details-modal/message-details-modal.component';
 import { CommonModule } from '@angular/common';
 import { MessageDetailService } from '../services/message-detail.service';
+import { ToastService } from '../services/toast.service';
+import { UnreadmessageService } from '../services/unreadmessage.service';
 
 
 @Component({
@@ -18,7 +20,7 @@ import { MessageDetailService } from '../services/message-detail.service';
   imports: [RouterOutlet,ChannellistComponent,MessagesComponent,NavComponent,MessageInputComponent,MessageDetailsModalComponent,CommonModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
-  providers: [MessageServiceService, ChannelserviceService, MessageDetailService]
+  providers: [MessageServiceService, ChannelserviceService, MessageDetailService,ToastService,UnreadmessageService]
 })
 export class ChatComponent implements OnInit {
   @Input() author!: string;

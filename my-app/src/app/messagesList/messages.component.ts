@@ -13,6 +13,7 @@ import { WebSocketService } from '../services/web-socket.service';
 import { Subject } from 'rxjs';
 import { ToastComponent } from '../toast/toast.component';
 import { ToastService } from '../services/toast.service';
+import { UnreadmessageService } from '../services/unreadmessage.service';
 
 @Component({
   selector: 'app-messages',
@@ -20,7 +21,6 @@ import { ToastService } from '../services/toast.service';
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css',
   imports: [HttpClientModule, NgIf, CommonModule, RouterModule, MessageInputComponent, MessageComponent,ToastComponent],
-  providers: [ToastService],
 })
 
 export class MessagesComponent implements OnInit, AfterViewInit {
@@ -44,7 +44,8 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     private messageService: MessageServiceService,
     private channelService: ChannelserviceService,
     private webSocketService: WebSocketService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private unreadService: UnreadmessageService
   ) {
   }
 
@@ -70,6 +71,9 @@ export class MessagesComponent implements OnInit, AfterViewInit {
         this.messages[existingMessageIndex] = message;
       } else {
         this.messages.push(message);
+        if (message.channel !== this.channelId) {
+          this.unreadService.incrementUnreadCount(message.channel);
+        }
         this.showNewMessageIndicator = true;
         this.showToast(message);
       }
@@ -81,6 +85,7 @@ export class MessagesComponent implements OnInit, AfterViewInit {
       if (channel?.id) {
         this.channelId = channel.id;
         this.getChannelMessages();
+        this.unreadService.resetUnreadCount(channel.id);
       }
     }, (error) => {
       console.error('Error loading messages:', error);
