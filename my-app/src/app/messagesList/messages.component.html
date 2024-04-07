@@ -8,10 +8,12 @@
           [parentMessage]="getMessageById(message.parentMessageId)" [onMessageClick]="onMessageClick">
     </app-message>
   </div>
-  <button *ngIf="showScrollButton" class="scroll-down-button" (click)="scrollToBottomSmoothly()">
-    <i class="fas fa-arrow-down"></i>
-  </button>
-  <div *ngIf="showNewMessageIndicator" class="new-message-indicator">New Message</div>  
+  <div class="overlay-container"> <!-- New container for overlay effects -->
+    <button *ngIf="showScrollButton && !showNewMessageIndicator" class="scroll-down-button" (click)="scrollToBottomSmoothly()">
+      <i class="fas fa-arrow-down"></i>
+    </button>
+    <div *ngIf="showNewMessageIndicator" class="new-message-indicator" (click)="scrollToBottomSmoothly()">New Message</div>
+  </div>
   <div class="message-input">
     <app-message-input (messageSent)="onSubmit($event)" [messageToReply]="getMessageById(this.messageService.getReplyingTo())"></app-message-input>
   </div>

@@ -1,5 +1,6 @@
 /* Style for the message to reply section */
 .message-to-reply {
+  position: absolute;
   background-color: #fffec8b2;
   padding: 10px;
   border-radius: 4px;
@@ -8,7 +9,7 @@
 }
 
 .message-to-reply span{
-  background-color: #fffeefb2;
+  background-color: #fffedeb2;
   padding: 10px;
   border-radius: 4px;
   margin-bottom: 10px;

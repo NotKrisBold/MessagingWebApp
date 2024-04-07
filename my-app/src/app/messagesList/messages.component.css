@@ -1,85 +1,98 @@
 .chat-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px);
+  overflow: hidden;
   position: relative;
 }
 
-.message-list {
-  height: calc(100vh - 200px); /* Adjust 100px if you have any fixed headers or footers */
-  overflow-y: auto;
-  background-color: rgb(255, 254, 240);
-  /* Add any other styling properties */
-}
-
-.message-input {
-  background-color: rgb(255, 254, 240);
-  /* Add any other styling properties */
-}
-
-.scroll-down-button {
-  position: absolute;
-  bottom: 15%; 
-  left: 50%; 
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.3); 
-  color: #fff;
-  padding: 10px 20px; 
-  cursor: pointer;
-  border: none;
-  border-radius: 5%; 
-  font-size: 1.2em; 
-
-}
-
-.scroll-down-button:hover {
-  background-color: rgba(0, 123, 255, 0.7);
-}
-
-.scroll-down-button i {
-  font-size: 1em; 
-}
-
-.new-message-indicator {
-  position: absolute;
-  bottom: 12%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.5); /* Transparent background color */
-  color: #fff; /* Text color */
-  padding: 0px 10px;
-  opacity: 0.8; /* Adjust the opacity as needed */
-}
-
-
-/* For webkit browsers (Chrome, Safari) */
-::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Color of the track */
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888; /* Color of the thumb */
-  border-radius: 6px; /* Rounded corners */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Color of the thumb on hover */
-}
-
-.search-bar {
-  width: 100%;
-}
-
-.chat-container {
-  position: relative; /* Ensure position context for absolute/fixed positioning */
-  /* Add other styles as needed */
+.overlay-container {
+  position: relative;
 }
 
 .custom-toast-container {
   position: absolute;
   top: 10px;
   right: 10px;
-  z-index: 1000; /* Ensure it's above other content */
+  z-index: 1000;
 }
 
+.search-bar {
+  width: 100%;
+  padding: 2px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.message-list {
+  flex: 1;
+  overflow-y: auto;
+  background-color: rgb(255, 254, 240);
+  padding-bottom: 50px;
+}
+
+.scroll-down-button {
+  position: absolute; 
+  bottom: 20px; 
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7); 
+  color: #fff; 
+  padding: 10px 20px; 
+  border-radius: 20px; 
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  z-index: 1000; 
+  transition: opacity 0.3s ease; 
+}
+
+
+.scroll-down-button:hover,
+.new-message-indicator:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+
+.scroll-down-button i {
+  font-size: 1em;
+}
+
+.new-message-indicator {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  opacity: 0.8;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.message-input {
+  background-color: rgb(255, 254, 240);
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  z-index: 1000;
+}
