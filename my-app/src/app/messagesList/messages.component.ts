@@ -43,7 +43,7 @@ export class MessagesComponent implements OnInit, AfterViewInit {
   @Input() onMessageClick!: (message: Message) => void;
 
   constructor(
-    private messageService: MessageServiceService,
+    public messageService: MessageServiceService,
     private channelService: ChannelserviceService,
     private webSocketService: WebSocketService,
     private toastService: ToastService,

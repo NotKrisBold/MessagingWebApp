@@ -1,5 +1,21 @@
 <div class="message-input">
+    <div *ngIf="messageToReply && this.messageService.isReplying()" class="message-to-reply">
+        <button class="cancel-button" (click)="clearMessageToReply()">Cancel</button>
+        
+        <div class="message-header">
+            <p>{{ messageToReply.author }}</p>
+        </div>
+        
+        <span>{{ messageToReply.body }}</span>
+    </div>
+    <div *ngIf="this.messageService.isModifying()" class="message-to-reply">
+            <p style="font-weight: bold;">
+                Modifying
+            </p>
+            <button class="cancel-button" (click)="clearMessageToReply()">Cancel</button>
+    </div>
     <textarea [(ngModel)]="messageText" placeholder="Type your message..."></textarea>
+
     <div class="file-button-container">
         <input type="file" (change)="onFileSelected($event)">
         <button (click)="sendMessage()">Send</button>

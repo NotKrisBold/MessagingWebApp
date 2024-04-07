@@ -26,8 +26,8 @@
         <span class="modification-indicator" *ngIf="message.date !== message.lastEditTime">(modified)</span>
         <div class="message-actions"
             [ngClass]="{'message-actions-left': !isCurrentUser, 'message-actions-right': isCurrentUser}">
-            <button type="button" class="reply-button btn btn-primary" (click)="reply($event)" [class.active]="isReplying">Reply</button>
-            <button *ngIf="isCurrentUser" class="modify-button btn btn-primary" (click)="modify($event)" [class.active]="isModifying">Modify</button>
+            <button type="button" class="reply-button btn btn-primary" (click)="reply($event)">Reply</button>
+            <button *ngIf="isCurrentUser" class="modify-button btn btn-primary" (click)="modify($event)">Modify</button>
         </div>
     </div>
     <div class="message-time">
