@@ -14,17 +14,22 @@
                     <div class="replied-content">{{ parentMessage?.body }}</div>
                 </div>
             </div>
-
-            <!-- Display link preview if available -->
-            <div *ngIf="linkPreview" class="link-preview">
-                <app-link-preview [url]="linkPreview.url" [description]="linkPreview.description"
-                    [image]="linkPreview.image" [error]="linkPreview.error">
-                </app-link-preview>
-            </div>
-
+        </div>
+        <!-- Display link preview if available -->
+        <div *ngIf="linkPreview" class="link-preview">
+            <app-link-preview [url]="linkPreview.url" [description]="linkPreview.description"
+                [image]="linkPreview.image" [error]="linkPreview.error">
+            </app-link-preview>
+        </div>
+        <div>
             <!-- Render the message body -->
-            <div [innerHTML]="sanitizeMessageBody(message.body)"></div>
-
+            <ng-container *ngIf="!linkPreview; else previewBlock" >
+                <div [innerHTML]="sanitizeMessageBody(message.body)" (click)="onClickMessage()"></div>
+            </ng-container>
+            <ng-template #previewBlock>
+                <div [innerHTML]="sanitizeMessageBody(message.body)"></div>
+            </ng-template>
+            
             <!-- Display message attachment if available -->
             <div class="message-attachment" *ngIf="message.attachment">
                 <a href="{{ message.attachment.url }}" target="_blank">{{ message.attachment.title }}</a>
