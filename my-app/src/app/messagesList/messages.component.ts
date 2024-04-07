@@ -77,7 +77,8 @@ export class MessagesComponent implements OnInit, AfterViewInit {
         }
         else{
           this.messages.push(message);
-          this.showNewMessageIndicator = true;
+          if(message.author != this.authorMessage)
+            this.showNewMessageIndicator = true;
         }
         this.showToast(message);
       }
