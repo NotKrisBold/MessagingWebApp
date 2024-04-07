@@ -1,3 +1,7 @@
+<div class="overlay" *ngIf="messageDetailService.showMessageDetails"></div>
+<div class="custom-toast-container">
+  <app-message-details-modal *ngIf="messageDetailService.showMessageDetails" id="message-details"></app-message-details-modal>
+</div>
 <app-nav [isVisible]="search"></app-nav>
 <div class="chat">
     <app-channellist></app-channellist>
@@ -5,7 +9,6 @@
     <router-outlet>
       <app-messages [authorMessage]="author" [onMessageClick]="onMessageClick"></app-messages>
       <!-- Overlay to make chat div not interactable -->
-      <div class="overlay" *ngIf="messageDetailService.showMessageDetails"></div>
     </router-outlet>
   </div>
 </div>
