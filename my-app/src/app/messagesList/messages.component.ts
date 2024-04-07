@@ -72,11 +72,13 @@ export class MessagesComponent implements OnInit, AfterViewInit {
       if (existingMessageIndex !== -1) {
         this.messages[existingMessageIndex] = message;
       } else {
-        this.messages.push(message);
         if (message.channel !== this.channelId) {
           this.unreadService.incrementUnreadCount(message.channel);
         }
-        this.showNewMessageIndicator = true;
+        else{
+          this.messages.push(message);
+          this.showNewMessageIndicator = true;
+        }
         this.showToast(message);
       }
     });
