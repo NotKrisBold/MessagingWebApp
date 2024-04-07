@@ -8,6 +8,7 @@ export class Message {
     lastEditTime: string;
     channel: number;
     attachment: any;
+    channelId: number;
 
     constructor(
         id: string,
@@ -18,6 +19,7 @@ export class Message {
         lastEditTime: string,
         channel: number,
         attachment: any,
+        channelId: number
     ) {
         this.id = id;
         this.parentMessageId = parentMessageId;
@@ -27,6 +29,7 @@ export class Message {
         this.lastEditTime = lastEditTime;
         this.channel = channel;
         this.attachment = attachment;
+        this.channelId = channelId;
     }
 
 }

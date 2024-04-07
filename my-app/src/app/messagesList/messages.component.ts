@@ -132,7 +132,7 @@ export class MessagesComponent implements OnInit, AfterViewInit {
       .subscribe(messages => {
         this.messages = messages
         this.messages.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-        this.messagesToDisplay = messages
+        this.messagesToDisplay = messages;
       });
   }
 
@@ -164,8 +164,9 @@ export class MessagesComponent implements OnInit, AfterViewInit {
         this.authorMessage,
         new Date().toISOString(),
         new Date().toISOString(),
-        1,
-        this.selectedFile
+        this.channelId,
+        this.selectedFile,
+        this.channelId
       );
       const formdata = new FormData();
       formdata.append("message", new Blob([JSON.stringify(newMessage)], { type: 'application/json' }));
@@ -185,8 +186,9 @@ export class MessagesComponent implements OnInit, AfterViewInit {
         this.authorMessage,
         new Date().toISOString(),
         new Date().toISOString(),
-        1,
-        this.selectedFile
+        this.channelId,
+        this.selectedFile,
+        this.channelId
       );
       const formdata = new FormData();
       formdata.append("message", new Blob([JSON.stringify(newMessage)], { type: 'application/json' }));
