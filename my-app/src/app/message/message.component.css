@@ -1,125 +1,121 @@
-/* message.component.css */
-
+/* General message container styles */
 .message-container {
   display: flex;
   flex-direction: column;
   max-width: 100%;
-  margin: 5px;
-  border-radius: 10px;
-  word-wrap: break-word;
+  margin: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
 }
 
-
-.received .message-header {
-  align-self: flex-start;
+/* Header and Content Styles */
+.message-header, .message-content {
   font-size: 16px;
-  font-weight: 700;
-  color: #000000;
+  color: #333;
 }
 
-.sent .message-content,
-.sent .message-time {
-  align-self: flex-end;
-}
-
-.sent .message-content {
-  background-color: rgb(255, 246, 192);
-}
-
-.received .message-content,
-.received .message-time {
-  align-self: flex-start;
-}
-
-.received .message-content {
-  background-color: #c9e7e7;
+.message-header {
+  width: fit-content;
+  font-weight: bold;
+  padding: 12px;
+  background-color: #f7f7f7;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
 .message-content {
-  font-size: 16px;
-  color: #000000;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 16px;
+  border-radius: 0 0 12px 12px;
+  background-color: #f9f9f9;
+  word-wrap: break-word;
+}
+
+/* Sent Message Styles */
+.sent .message-content {
+  align-self: flex-end;
+  background-color: #b6e6a0;
+  text-align: left; /* Align text content to right for sent messages */
   max-width: 50%;
 }
 
-.message-time {
-  font-size: 12px;
-  color: #666666;
-  margin-top: 5px;
+/* Received Message Styles */
+.received .message-content {
+  align-self: flex-start;
+  background-color: #d6eaf8;
+  text-align: left; /* Align text content to left for received messages */
+  max-width: 50%;
 }
 
-
-.author-name {
-  font-weight: bold;
-  margin-right: 5px;
-}
-
-
-.replied-content-sender {
-  background-color: #fbffd4; 
-  margin-top: 5px;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-.replied-content-other {
-  background-color: aliceblue; 
-  margin-top: 5px;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-.reply-text {
-  font-weight: bold;
+/* Replied Message Styles */
+.replied-content-sender, .replied-content-other {
+  background-color: #f0f0f0;
+  padding: 8px;
+  border-radius: 8px;
+  margin-top: 10px;
 }
 
 .replied-author {
   font-weight: bold;
+  color: #555;
 }
 
 .replied-content {
-  color: #666666;
+  color: #777;
 }
 
+/* Modification Indicator Styles */
 .modification-indicator {
   font-size: 12px;
-  color: #666666;
-  margin-left: 5px; /* Adjust spacing as needed */
+  color: #777;
+  margin-left: 8px;
 }
 
+/* Message Actions Styles */
 .message-actions {
   display: flex;
-}
-
-.message-actions-left {
   justify-content: flex-end;
-  margin: 2px;
+  margin-top: 10px;
 }
 
-.message-actions-right {
-  justify-content: flex-start;
-  margin: 2px;
-}
-
-.reply-button,
-.modify-button {
-  margin-right: 5px; /* Adjust spacing between buttons */
+.reply-button, .modify-button {
+  padding: 10px 20px;
   border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
-.reply-button:hover,
-.modify-button:hover {
-  background-color: #000326; 
+.reply-button {
+  background-color: #007bff;
 }
 
-
-
-.active {
-  background-color: #000326;
+.modify-button {
+  background-color: #6c757d;
+  margin-left: 10px;
 }
+
+.reply-button:hover, .modify-button:hover {
+  filter: brightness(1.2); /* Brighten on hover */
+}
+
+/* Link Preview Container */
 .link-preview {
   display: flex;
-  max-width: 100%;
+  align-items: center;
+  margin-top: 10px;
 }
 
+/* Message Time Styles */
+.message-time {
+  font-size: 12px;
+  color: #777;
+  align-self: flex-end;
+  margin-top: 5px;
+}
+
+.received .message-time {
+  align-self: flex-start;
+}

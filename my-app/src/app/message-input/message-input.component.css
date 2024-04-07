@@ -1,90 +1,39 @@
-/* Style for the message to reply section */
-.message-to-reply {
-  position: absolute;
-  background-color: #fffec8b2;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  position: relative; /* Enable positioning */
-}
-
-.message-to-reply span{
-  background-color: #fffedeb2;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  width: 100%;
-  position: relative; /* Enable positioning */
-}
-/* Style for the cancel button */
-.cancel-button {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background-color: #ff0000;
-  color: #000000;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold; /* Make the button text bold */
-}
-
-.cancel-button:hover {
-  background-color: #ff9898;
-}
-
-/* Style for the message header (author name) */
-.message-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-/* Style for the author name within message header */
-.message-header p {
-  font-weight: bold; /* Make the author name bold */
-}
-
-/* Other existing styles for message input */
+/* General styles */
 .message-input {
-  display: flex;
-  flex-direction: column;
   margin: 1%;
-  padding: 10px;
-  background-color: rgb(255, 254, 240);
+  padding: 16px;
+  background-color: #fffef0;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .message-input textarea {
   width: 100%;
-  min-height: 50px;
-  max-height: 150px;
-  resize: vertical;
-  padding: 8px;
+  min-height: 80px;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-bottom: 10px;
   font-size: 16px;
   line-height: 1.4;
+  resize: vertical;
+  margin-bottom: 12px;
 }
 
 .file-button-container {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .file-button-container input[type="file"] {
   flex: 1;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
 .file-button-container button {
-  padding: 10px 16px;
+  padding: 12px 20px;
   background-color: #007BFF;
   color: white;
   border: none;
@@ -95,4 +44,59 @@
 
 .file-button-container button:hover {
   background-color: #0056b3;
+}
+
+/* Message reply styles */
+.message-to-reply {
+  background-color: #b6e6a0;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.message-to-reply .cancel-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: #ff0000;
+  color: #fff;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.message-to-reply .cancel-button:hover {
+  background-color: #ff6464;
+}
+
+.message-to-reply .message-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.message-to-reply .message-header p {
+  font-weight: bold;
+  margin: 0;
+}
+
+.message-to-reply span {
+  display: block;
+  background-color: #cbe9bd;
+  padding: 12px;
+  border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .message-input textarea {
+    min-height: 60px;
+  }
+
+  .file-button-container button {
+    padding: 12px 16px;
+  }
 }

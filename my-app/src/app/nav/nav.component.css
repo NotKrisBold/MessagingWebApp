@@ -1,13 +1,55 @@
-div{
-    background-color: rgba(127, 255, 212, 0.0);
-}
+/* Global Styles */
 
-nav{
-    background-color: rgba(127, 255, 212, 0.5);
-    
-}
-
-button{
-    background-color: rgb(255, 245, 213);
-     color: black;
-}
+body {
+    font-family: 'Arial', sans-serif; /* Set a fallback font family */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    background-color: #f8f9fa; /* Set a light background color */
+  }
+  
+  /* Navbar Styles */
+  
+  .navbar {
+    background-color: #5f9ea0; /* Set the background color of the navbar */
+    color: #fff; /* Set text color for navbar content */
+    padding: 10px 0; /* Add padding to the navbar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
+  }
+  
+  .navbar h1 {
+    margin: 0; /* Remove margin from heading */
+    font-size: 24px; /* Set font size for heading */
+    display: flex; /* Use flexbox to align content */
+    align-items: center; /* Center content vertically */
+  }
+  
+  .navbar svg {
+    width: 32px; /* Set width of the SVG icon */
+    height: 32px; /* Set height of the SVG icon */
+    margin-right: 10px; /* Add spacing between icon and text */
+  }
+  
+  /* Container Styles */
+  
+  .container-fluid {
+    max-width: 1200px; /* Set maximum width for container */
+    margin: 0 auto; /* Center the container horizontally */
+  }
+  
+  /* Button Styles */
+  
+  button {
+    background-color: #ffd700; /* Set background color for buttons */
+    color: #000; /* Set text color for buttons */
+    padding: 10px 20px; /* Add padding to buttons */
+    border: none; /* Remove default button border */
+    border-radius: 5px; /* Add border radius for rounded corners */
+    cursor: pointer; /* Use pointer cursor on hover */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+  }
+  
+  button:hover {
+    background-color: #ffc107; /* Change background color on hover */
+    color: #fff; /* Change text color on hover */
+  }
+  
