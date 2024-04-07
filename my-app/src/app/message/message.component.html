@@ -26,11 +26,11 @@
             <!-- Display message attachment if available -->
             <div class="message-attachment" *ngIf="message.attachment">
                 @if(message.attachment.contentType.startsWith('image/')){
-                    <a href="{{ message.attachment.url }}" target="_blank"> <img class="message-image"
+                <a href="{{ message.attachment.url }}" target="_blank"> <img class="message-image"
                         [src]="message.attachment.url" alt="{{ message.attachment.title }}"> </a>
                 }
                 @else {
-                    <a href="{{ message.attachment.url }}" target="_blank"> {{ message.attachment.title }} </a>
+                <a href="{{ message.attachment.url }}" target="_blank"> {{ message.attachment.title }} </a>
                 }
             </div>
 

@@ -1,6 +1,6 @@
 .channel-list {
-  height: calc(100vh - 100px); /* Adjust the height based on your layout */
-  width: 250px; /* Fixed width or adjust as needed */
+  height: 100%; /* Adjust the height based on your layout */
+  width: 100%; /* Fixed width or adjust as needed */
   overflow-y: auto; /* Enable vertical scrolling */
   background-color: #fcfbe4; /* Light background color */
   font-weight: bold; /* Bold font weight for channel names */
