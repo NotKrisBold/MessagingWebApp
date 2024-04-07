@@ -14,10 +14,11 @@
             </p>
             <button class="cancel-button" (click)="clearMessageToReply()">Cancel</button>
     </div>
+    
     <textarea [(ngModel)]="messageText" placeholder="Type your message..."></textarea>
 
     <div class="file-button-container">
-        <input type="file" (change)="onFileSelected($event)">
+        <input type="file" (change)="onFileSelected($event)" #inputFile>
         <button (click)="sendMessage()">Send</button>
     </div>
 </div>

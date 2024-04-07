@@ -15,14 +15,14 @@
   color: #333;
 }
 
+/* Message Header Styles */
 .message-header {
-  width: fit-content;
+  font-size: 16px;
   font-weight: bold;
-  padding: 12px;
-  background-color: #f7f7f7;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  color: #333;
+  margin-bottom: 10px;
 }
+
 
 .message-content {
   padding: 16px;

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, NgModule, OnChanges, Output, SimpleChanges, input } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, NgModule, OnChanges, Output, SimpleChanges, ViewChild, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Message } from '../models/message';
 import { MessageServiceService } from '../services/message-service.service';
@@ -18,7 +18,8 @@ export class MessageInputComponent implements OnChanges{
   selectedFile: File | null = null;
   @Input() messageToReply: Message | undefined;
   @Output() messageSent = new EventEmitter<{ text: string, file: File | null }>();
-
+  @ViewChild('inputFile') inputFile!: ElementRef;
+  
   constructor(public messageService: MessageServiceService) { }
   
   ngOnChanges(changes: SimpleChanges): void {
@@ -31,8 +32,15 @@ export class MessageInputComponent implements OnChanges{
     this.messageText = '';
     this.selectedFile = null;
     this.messageToReply = undefined;
+    this.clearFileInput();
   }
 
+  clearFileInput() {
+    // Reset the file input element
+    if (this.inputFile && this.inputFile.nativeElement) {
+        this.inputFile.nativeElement.value = '';
+    }
+}
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
