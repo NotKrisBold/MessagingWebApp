@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Channel } from '../models/channel';
 import { ChannelserviceService } from '../services/channelservice.service';
 import { RouterLink, RouterModule } from '@angular/router';
@@ -19,6 +19,7 @@ export class ChannellistComponent {
   currentChannel: Channel | undefined;
   unreadCountSubscription: Subscription | undefined;
   unreadMessageCounts: { [channelId: number]: number } = {};
+  @Input() showChannels: boolean = true;
 
   constructor(private service: ChannelserviceService,private unreadService: UnreadmessageService) { }
 

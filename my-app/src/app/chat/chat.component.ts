@@ -25,6 +25,7 @@ import { UnreadmessageService } from '../services/unreadmessage.service';
 export class ChatComponent implements OnInit {
   @Input() author!: string;
   @Input() search: boolean = true;
+  @Input() channels: boolean = true;
   @Input() url!: string;
   @Input() onMessageClick!: (message : Message) => void;
 

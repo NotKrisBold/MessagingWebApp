@@ -1,4 +1,4 @@
-<div class="channel-list" *ngIf="channels.length > 1">
+<div class="channel-list" *ngIf="channels.length > 1 && showChannels">
     <div *ngFor="let channel of channels" class="channel-item" (click)="changeChannel(channel.id)"
         [class.selected]="currentChannel?.id == channel.id">
         {{ channel.name }}
