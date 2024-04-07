@@ -1,40 +1,29 @@
 .channel-list {
-  height: calc(100vh - 100px); 
-  width: max-content; 
-  overflow-y: auto;
-  background-color: rgb(252, 251, 228);
-  font-weight: bold;
-  font-size: large;
-  border-color: black;
-}
+    height: calc(100vh - 100px); 
+    width: max-content; 
+    overflow-y: auto;
+    background-color: rgb(252, 251, 228);
+    font-weight: bold;
+    font-size: large;
+    border-color: black;
+  }
+  
+  .channel-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc; 
+    cursor: pointer; 
+    white-space: nowrap; 
+  }
+  
+  .channel-item:hover {
+    background-color: #0275d8; 
+    color: white;
+  }
 
-.channel-item {
-  padding: 10px;
-  border-bottom: 1px solid #ccc; 
-  cursor: pointer; 
-  white-space: nowrap; 
-}
-
-.channel-item:hover {
-  background-color: #0275d8; 
-  color: white;
-}
-
-.channel-item.selected {
-  background-color: #0275d8; 
-  color: white;
-}
-
-.badge {
-  display: inline-flex; /* Use flexbox to center content */
-  justify-content: center; /* Center content horizontally */
-  align-items: center; /* Center content vertically */
-  border-radius: 50%; /* Makes the badge circular */
-  background-color: rgb(170, 255, 0); /* Background color of the badge */
-  color: rgb(0, 0, 0); /* Text color of the badge */
-  width: 24px; /* Width of the badge */
-  height: 24px; /* Height of the badge */
-  font-size: 14px; /* Font size of the number inside the badge */
-}
-
-
+  .channel-item.selected {
+    background-color: #0275d8; 
+    color: white;
+  }
+  
+  
+  

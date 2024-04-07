@@ -2,13 +2,14 @@ import { Injectable, OnInit } from '@angular/core';
 import { Client } from '@stomp/stompjs';
 import { Message } from '../models/message';
 import { Subject } from 'rxjs';
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebSocketService {
 
-  private API_KEY = "boldini-elaidy"; // Replace this with your API key
+  private API_KEY = environment.apiKey; // Replace this with your API key
   private messageSubject: Subject<Message>;
   private client: Client;
   constructor() { 

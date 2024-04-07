@@ -14,6 +14,8 @@ import { Subject } from 'rxjs';
 import { ToastComponent } from '../toast/toast.component';
 import { ToastService } from '../services/toast.service';
 import { UnreadmessageService } from '../services/unreadmessage.service';
+import { environment } from '../environment/environment';
+
 
 @Component({
   selector: 'app-messages',
@@ -31,7 +33,7 @@ export class MessagesComponent implements OnInit, AfterViewInit {
   selectedFile: File | null = null;
   fileAttached: boolean = false;
   channelId: number = 0;
-  apiKey = "boldini-elaidy";
+  apiKey = environment;
   @ViewChild('messageList') messageList!: ElementRef;
   showScrollButton: boolean = false;
   showNewMessageIndicator = false;

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Message } from '../models/message';
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class MessageServiceService {
  
   private author = "";
   private url = "";
-  private apiKey = "boldini-elaidy";
+  private apiKey = environment.apiKey;
   private modifyingMessage = false;
   private replyingMessage = false;
   private HttpClient = inject(HttpClient);
