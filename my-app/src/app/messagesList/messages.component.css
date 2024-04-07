@@ -39,6 +39,7 @@
   color: #999;
 }
 .message-list {
+  width: 100%;
   flex: 1;
   overflow-y: auto;
   background-color: rgb(255, 254, 240);

@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Channel } from '../models/channel';
 import { RouterModule } from '@angular/router';
@@ -13,8 +13,8 @@ import { WebSocketService } from '../services/web-socket.service';
 import { ToastComponent } from '../toast/toast.component';
 import { ToastService } from '../services/toast.service';
 import { UnreadmessageService } from '../services/unreadmessage.service';
-import { Subject, throwError } from 'rxjs'; // Import throwError
-import { catchError } from 'rxjs/operators'; // Import catchError
+import { Subject, throwError } from 'rxjs'; 
+import { catchError } from 'rxjs/operators'; 
 
 
 @Component({
@@ -47,7 +47,7 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     private webSocketService: WebSocketService,
     private toastService: ToastService,
     private unreadService: UnreadmessageService,
-    private http: HttpClient // Inject HttpClient
+    private http: HttpClient 
   ) {}
 
   showToast(msg: Message): void {
@@ -83,7 +83,6 @@ export class MessagesComponent implements OnInit, AfterViewInit {
       }
     }, (error) => {
       console.error('WebSocket Error:', error);
-      // Handle WebSocket error (e.g., display error message)
     });
   }
 
@@ -98,7 +97,6 @@ export class MessagesComponent implements OnInit, AfterViewInit {
       },
       (error) => {
         console.error('Error loading current channel:', error);
-        // Handle error (e.g., display error message)
       }
     );
   }
@@ -139,7 +137,6 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     this.messageService.getChannelMessages(this.channelId).pipe(
       catchError((error) => {
         console.error('Error loading channel messages:', error);
-        // Handle error (e.g., display error message)
         return throwError('Failed to load channel messages.');
       })
     ).subscribe((messages: Message[]) => {

@@ -1,15 +1,11 @@
-<div class="overlay" *ngIf="messageDetailService.showMessageDetails"></div>
 <app-nav [isVisible]="search"></app-nav>
-<div style="display:flex;">
-  <div><app-channellist></app-channellist></div>
-  <router-outlet>
-    <div>
+<div class="chat">
+    <app-channellist></app-channellist>
+  <div class="messages-container">
+    <router-outlet>
       <app-messages [authorMessage]="author" [onMessageClick]="onMessageClick"></app-messages>
       <!-- Overlay to make chat div not interactable -->
-    </div>
-  </router-outlet>
-</div>
-<div class="custom-toast-container">
-  <app-message-details-modal *ngIf="messageDetailService.showMessageDetails"
-    id="message-details"></app-message-details-modal>
+      <div class="overlay" *ngIf="messageDetailService.showMessageDetails"></div>
+    </router-outlet>
+  </div>
 </div>
