@@ -9,6 +9,43 @@
   position: relative;
 }
 
+.message-content {
+  position: relative;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sent .animation{
+  display: flex;
+  flex-direction: column;
+  max-width: 50%;
+  margin: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  align-self: flex-end;
+}
+.received .animation{
+  display: flex;
+  flex-direction: column;
+  max-width: 50%;
+  margin: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  align-self: flex-start;
+}
+.animation:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
 /* Header and Content Styles */
 .message-header, .message-content {
   font-size: 16px;
@@ -36,7 +73,7 @@
   align-self: flex-end;
   background-color: #b6e6a0;
   text-align: left; /* Align text content to right for sent messages */
-  max-width: 50%;
+  width: 100%;
 }
 
 /* Received Message Styles */
@@ -44,7 +81,7 @@
   align-self: flex-start;
   background-color: #d6eaf8;
   text-align: left; /* Align text content to left for received messages */
-  max-width: 50%;
+  width: 100%;
 }
 
 /* Replied Message Styles */
@@ -118,4 +155,13 @@
 
 .received .message-time {
   align-self: flex-start;
+}
+
+.message-image {
+  max-width: 100%; /* Set maximum width for the image */
+  max-height: 100%; /* Set maximum height for the image */
+  width: auto; /* Allow the width to adjust proportionally */
+  height: auto; /* Allow the height to adjust proportionally */
+  display: block; /* Ensure the image is displayed as a block element */
+  margin-top: 5px; /* Add spacing at the top of the image */
 }

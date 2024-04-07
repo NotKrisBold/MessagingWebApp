@@ -12,7 +12,7 @@
       <p><strong>Date:</strong> {{ message.date | date:'medium' }}</p>
       <p><strong>Last Edit Time:</strong> {{ message.lastEditTime | date:'medium' }}</p>
       <p><strong>Channel ID:</strong> {{ message.channelId }}</p>
-      <p *ngIf="message.attachment"><strong>Attachment:</strong> {{ message.attachment }}</p>
+      <p *ngIf="message.attachment"><strong>Attachment:</strong> {{ message.attachment.title }}</p>
       <!-- You can add more details here if needed -->
     </div>
   </div>

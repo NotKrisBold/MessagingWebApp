@@ -1,6 +1,7 @@
 <div class="message-container" [ngClass]="{'sent': isCurrentUser, 'received': !isCurrentUser}">
-    <div class="message-content">
-        <div (click)="onClickMessage()">
+    <div class="animation" [ngClass]="{'sent': isCurrentUser, 'received': !isCurrentUser}"
+        (click)="onClickMessage($event)">
+        <div class="message-content">
             <!-- Move the message header here -->
             <div *ngIf="!isCurrentUser" class="message-header">
                 {{ message.author }}
@@ -14,40 +15,48 @@
                     <div class="replied-content">{{ parentMessage?.body }}</div>
                 </div>
             </div>
-        </div>
-        <!-- Display link preview if available -->
-        <div *ngIf="linkPreview" class="link-preview">
-            <app-link-preview [url]="linkPreview.url" [description]="linkPreview.description"
-                [image]="linkPreview.image" [error]="linkPreview.error">
-            </app-link-preview>
-        </div>
-        <div>
-            <!-- Render the message body -->
-            <ng-container *ngIf="!linkPreview; else previewBlock" >
-                <div [innerHTML]="sanitizeMessageBody(message.body)" (click)="onClickMessage()"></div>
-            </ng-container>
-            <ng-template #previewBlock>
-                <div [innerHTML]="sanitizeMessageBody(message.body)"></div>
-            </ng-template>
-            
+            <!-- Display link preview if available -->
+            <div *ngIf="linkPreview" class="link-preview">
+                <app-link-preview [url]="linkPreview.url" [description]="linkPreview.description"
+                    [image]="linkPreview.image" [error]="linkPreview.error">
+                </app-link-preview>
+            </div>
+
+
             <!-- Display message attachment if available -->
             <div class="message-attachment" *ngIf="message.attachment">
-                <a href="{{ message.attachment.url }}" target="_blank">{{ message.attachment.title }}</a>
+                @if(message.attachment.contentType.startsWith('image/')){
+                    <a href="{{ message.attachment.url }}" target="_blank"> <img class="message-image"
+                        [src]="message.attachment.url" alt="{{ message.attachment.title }}"> </a>
+                }
+                @else {
+                    <a href="{{ message.attachment.url }}" target="_blank"> {{ message.attachment.title }} </a>
+                }
             </div>
+
+            <!-- Render the message body -->
+
+            <div [innerHTML]="sanitizeMessageBody(message.body)"></div>
+
+
+
 
             <!-- Display modification indicator if message has been edited -->
             <span class="modification-indicator" *ngIf="message.date !== message.lastEditTime">(modified)</span>
-        </div>
-        <!-- Display message actions (Reply and Modify buttons) -->
-        <div class="message-actions"
-            [ngClass]="{'message-actions-left': !isCurrentUser, 'message-actions-right': isCurrentUser}">
-            <button type="button" class="reply-button btn btn-primary" (click)="reply($event)">Reply</button>
-            <button *ngIf="isCurrentUser" class="modify-button btn btn-primary" (click)="modify($event)">Modify</button>
+            <!-- Display message actions (Reply and Modify buttons) -->
+            <div class="message-actions"
+                [ngClass]="{'message-actions-left': !isCurrentUser, 'message-actions-right': isCurrentUser}">
+                <button type="button" class="reply-button btn btn-primary" (click)="reply($event)">Reply</button>
+                <button *ngIf="isCurrentUser" class="modify-button btn btn-primary"
+                    (click)="modify($event)">Modify</button>
+            </div>
+
+            <!-- Display message time -->
+            <div class="message-time">
+                {{ message.date | date: 'medium' }}
+            </div>
         </div>
 
-        <!-- Display message time -->
-        <div class="message-time">
-            {{ message.date | date: 'medium' }}
-        </div>
     </div>
+
 </div>

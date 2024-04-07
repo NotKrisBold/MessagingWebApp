@@ -42,19 +42,24 @@ export class MessageComponent implements OnInit {
     })
   }
 
-  onClickMessage() {
-    this.onMessageClick(this.message);
+  onClickMessage(event: MouseEvent) {
+    const targetElement = event.target as HTMLElement;
+    
+    const tagName = targetElement.tagName.toLowerCase();
+    if (tagName !== 'a' && tagName !== 'img' && tagName !== 'button') {
+      this.onMessageClick(this.message);
+    }
   }
 
   reply(event: MouseEvent) {
-    if(!this.messageService.isModifying()){
+    if (!this.messageService.isModifying()) {
       this.messageService.setReplying(true);
       this.messageService.setReplyingTo(this.message.id);
     }
   }
 
   modify(event: MouseEvent) {
-    if(!this.messageService.isReplying()){
+    if (!this.messageService.isReplying()) {
       this.messageService.setModifying(true);
       this.messageService.setReplyingTo(this.message.id);
     }

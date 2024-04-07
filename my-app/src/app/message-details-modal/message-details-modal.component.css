@@ -31,12 +31,21 @@
   
   .modal-body {
     margin-top: 10px;
+    border-top: 1px solid #ccc; /* Top border */
+    border-bottom: 1px solid #ccc; /* Bottom border */
+    padding: 15px 0; /* Add padding to the top and bottom of the modal body */
   }
+  
   
   .close {
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 50px;
     cursor: pointer;
+  }
+
+  .close:hover {
+    color: #f44336; /* Red color on hover */
+    transform: scale(1.2); /* Scale up the button slightly on hover */
   }
   
