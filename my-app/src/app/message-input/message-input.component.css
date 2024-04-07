@@ -7,6 +7,14 @@
   position: relative; /* Enable positioning */
 }
 
+.message-to-reply span{
+  background-color: #fffeefb2;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  width: 100%;
+  position: relative; /* Enable positioning */
+}
 /* Style for the cancel button */
 .cancel-button {
   position: absolute;

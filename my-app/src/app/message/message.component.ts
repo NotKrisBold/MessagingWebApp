@@ -10,11 +10,11 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MessageDetailService } from '../services/message-detail.service';
 
 @Component({
-    selector: 'app-message',
-    standalone: true,
-    templateUrl: './message.component.html',
-    styleUrl: './message.component.css',
-    imports: [CommonModule, MessagesComponent, LinkPreviewComponent]
+  selector: 'app-message',
+  standalone: true,
+  templateUrl: './message.component.html',
+  styleUrl: './message.component.css',
+  imports: [CommonModule, MessagesComponent, LinkPreviewComponent]
 })
 export class MessageComponent implements OnInit {
   @Input()
@@ -33,7 +33,7 @@ export class MessageComponent implements OnInit {
     private linkPreviewService: LinkPreviewService,
     private sanitizer: DomSanitizer,
     public messageDetailService: MessageDetailService
-    ) {}
+  ) { }
 
   ngOnInit() {
     this.isCurrentUser = this.message.author === this.currentUser;
@@ -47,13 +47,17 @@ export class MessageComponent implements OnInit {
   }
 
   reply(event: MouseEvent) {
+    if(!this.messageService.isModifying()){
       this.messageService.setReplying(true);
       this.messageService.setReplyingTo(this.message.id);
+    }
   }
 
   modify(event: MouseEvent) {
+    if(!this.messageService.isReplying()){
       this.messageService.setModifying(true);
       this.messageService.setReplyingTo(this.message.id);
+    }
   }
 
   sanitizeMessageBody(body: string): SafeHtml {
