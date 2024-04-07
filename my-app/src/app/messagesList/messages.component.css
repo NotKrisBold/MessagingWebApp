@@ -83,7 +83,6 @@
   border-radius: 20px;
   opacity: 0.8;
   z-index: 1000;
-  transition: opacity 0.3s ease;
 }
 
 ::-webkit-scrollbar {
@@ -107,5 +106,5 @@
   background-color: rgb(255, 254, 240);
   padding: 10px;
   border-top: 1px solid #ccc;
-  z-index: 1000;
+  z-index: 999;
 }
