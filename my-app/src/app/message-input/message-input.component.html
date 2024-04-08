@@ -7,6 +7,8 @@
         </div>
         
         <span>{{ messageToReply.body }}</span>
+        <span>{{ messageToReply.attachment?.title }}</span>
+
     </div>
     <div *ngIf="this.messageService.isModifying()" class="message-to-reply">
             <p style="font-weight: bold;">

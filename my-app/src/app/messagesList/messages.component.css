@@ -19,25 +19,6 @@
   z-index: 1000;
 }
 
-/* Search Bar */
-.search-bar {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 25px;
-  font-size: 16px;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease;
-}
-
-.search-bar:focus {
-  outline: none;
-  border-color: #007bff;
-}
-
-.search-bar::placeholder {
-  color: #999;
-}
 .message-list {
   width: 100%;
   flex: 1;
@@ -59,7 +40,7 @@
   border: none;
   cursor: pointer;
   opacity: 0.8;
-  z-index: 1000; 
+  z-index: 999; 
   transition: opacity 0.3s ease; 
 }
 
@@ -84,7 +65,7 @@
   padding: 8px 16px;
   border-radius: 20px;
   opacity: 0.8;
-  z-index: 1000;
+  z-index: 999;
 }
 
 ::-webkit-scrollbar {

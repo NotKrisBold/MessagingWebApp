@@ -38,6 +38,7 @@ export class ChatComponent implements OnInit {
     this.messageService.setUrl(this.url);
     this.messageService.setAuthor(this.author);
     this.channelService.setUrl(this.url);
+    this.channelService.getCurrentChannel().subscribe(channel => this.currentChannelId = channel?.id);
   }
 
   searchMessages(event: Event): void {

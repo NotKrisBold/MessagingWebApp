@@ -13,8 +13,8 @@ import { WebSocketService } from '../services/web-socket.service';
 import { ToastComponent } from '../toast/toast.component';
 import { ToastService } from '../services/toast.service';
 import { UnreadmessageService } from '../services/unreadmessage.service';
-import { Subject, throwError } from 'rxjs'; 
-import { catchError, max } from 'rxjs/operators'; 
+import { Subject, throwError } from 'rxjs';
+import { catchError, max } from 'rxjs/operators';
 
 
 @Component({
@@ -22,10 +22,10 @@ import { catchError, max } from 'rxjs/operators';
   standalone: true,
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css',
-  imports: [HttpClientModule, NgIf, CommonModule, RouterModule, MessageInputComponent, MessageComponent,ToastComponent],
+  imports: [HttpClientModule, NgIf, CommonModule, RouterModule, MessageInputComponent, MessageComponent, ToastComponent],
 })
 
-export class MessagesComponent implements OnInit, AfterViewInit, OnChanges{
+export class MessagesComponent implements OnInit, AfterViewInit, OnChanges {
   maxScrollWait = 500;
   messages: Message[] = [];
   channel: Channel | undefined;
@@ -49,8 +49,8 @@ export class MessagesComponent implements OnInit, AfterViewInit, OnChanges{
     private webSocketService: WebSocketService,
     private toastService: ToastService,
     private unreadService: UnreadmessageService,
-    private http: HttpClient 
-  ) {}
+    private http: HttpClient
+  ) { }
 
   showToast(msg: Message): void {
     this.toastService.showToast(msg);
@@ -68,7 +68,7 @@ export class MessagesComponent implements OnInit, AfterViewInit, OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(!this.searchResult){
+    if (!this.searchResult) {
       this.messagesToDisplay = this.messages;
       this.scrollToBottomSmoothly(100);
     }
@@ -78,19 +78,32 @@ export class MessagesComponent implements OnInit, AfterViewInit, OnChanges{
 
   private subscribeToWebSocket(): void {
     this.webSocketService.getMessageSubject().subscribe((message: Message) => {
+      message.channelId = message.channel;
       const existingMessageIndex = this.messages.findIndex(m => m.id === message.id);
       if (existingMessageIndex !== -1) {
+        // modifica messaggio
         this.messages[existingMessageIndex] = message;
       } else {
+        let scroll = false;
         if (message.channel !== this.channelId) {
           this.unreadService.incrementUnreadCount(message.channel);
         } else {
-          this.messages.push(message);
           if (message.author !== this.authorMessage) {
-            this.showNewMessageIndicator = true;
+            const messageListElement: HTMLElement = this.messageList.nativeElement;
+            const isAtBottom = messageListElement.scrollHeight - messageListElement.scrollTop <= messageListElement.clientHeight;
+            if (isAtBottom) {
+              scroll = true;
+            } else {
+              this.showNewMessageIndicator = true;
+            }
           }
+          this.messages.push(message);
         }
         this.showToast(message);
+        if (scroll) {
+          this.scrollToBottomSmoothly(100);
+        }
+
       }
     }, (error) => {
       console.error('WebSocket Error:', error);
@@ -157,7 +170,7 @@ export class MessagesComponent implements OnInit, AfterViewInit, OnChanges{
       this.messages.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
       this.messagesToDisplay = messages;
       let scrollWait = messages.length * 5;
-      if(scrollWait > this.maxScrollWait)
+      if (scrollWait > this.maxScrollWait)
         scrollWait = this.maxScrollWait;
       this.scrollToBottomSmoothly(this.maxScrollWait);
     });
@@ -191,7 +204,7 @@ export class MessagesComponent implements OnInit, AfterViewInit, OnChanges{
     }
   }
 
-  createMessage(message: string): any{
+  createMessage(message: string): any {
     const newMessage = {
       body: message,
       author: this.authorMessage,

@@ -1,19 +1,17 @@
-<div *ngIf="message" class="overlay">
-  <div class="modal-container">
-    <div class="modal-header">
-      <h4 class="modal-title">Message Details</h4>
-      <button type="button" class="close" aria-label="Close" (click)="closeModal()" style="color: white;">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <p><strong>Author:</strong> {{ message.author }}</p>
-      <p><strong>Text:</strong> {{ message.body }}</p>
-      <p><strong>Date:</strong> {{ message.date | date:'medium' }}</p>
-      <p><strong>Last Edit Time:</strong> {{ message.lastEditTime | date:'medium' }}</p>
-      <p><strong>Channel ID:</strong> {{ message.channelId }}</p>
-      <p *ngIf="message.attachment"><strong>Attachment:</strong> {{ message.attachment.title }}</p>
-      <!-- You can add more details here if needed -->
-    </div>
+<div *ngIf="message" class="modal-container">
+  <div class="modal-header">
+    <h4 class="modal-title">Message Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()" style="color: white;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p><strong>Author:</strong> {{ message.author }}</p>
+    <p class="custom-scroll-container"><strong>Text:</strong> {{ message.body }}</p>
+    <p><strong>Date:</strong> {{ message.date | date:'medium' }}</p>
+    <p><strong>Last Edit Time:</strong> {{ message.lastEditTime | date:'medium' }}</p>
+    <p><strong>Channel:</strong> {{ message.channelId }}</p>
+    <p *ngIf="message.attachment"><strong>Attachment:</strong> {{ message.attachment.title }}</p>
+    <!-- You can add more details here if needed -->
   </div>
 </div>

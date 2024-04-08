@@ -23,7 +23,6 @@ export class AppComponent {
   showMessageDetails(message: Message) {
     this.messageDetailService.message = message;
     this.messageDetailService.showMessageDetails = true;
-    console.log("yes");
   }
 }
 
