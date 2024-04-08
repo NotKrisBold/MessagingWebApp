@@ -14,7 +14,7 @@ import { ToastComponent } from '../toast/toast.component';
 import { ToastService } from '../services/toast.service';
 import { UnreadmessageService } from '../services/unreadmessage.service';
 import { Subject, throwError } from 'rxjs'; 
-import { catchError } from 'rxjs/operators'; 
+import { catchError, max } from 'rxjs/operators'; 
 
 
 @Component({
@@ -26,6 +26,7 @@ import { catchError } from 'rxjs/operators';
 })
 
 export class MessagesComponent implements OnInit, AfterViewInit {
+  maxScrollWait = 1000;
   messages: Message[] = [];
   channel: Channel | undefined;
   @Input() authorMessage: string = "";
@@ -122,15 +123,17 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  scrollToBottomSmoothly(): void {
-    try {
-      this.messageList.nativeElement.scrollTo({
-        top: this.messageList.nativeElement.scrollHeight,
-        behavior: 'smooth'
-      });
-    } catch (err) {
-      console.error('Error scrolling to bottom:', err);
-    }
+  scrollToBottomSmoothly(delay: number): void {
+    setTimeout(() => {
+      try {
+        this.messageList.nativeElement.scrollTo({
+          top: this.messageList.nativeElement.scrollHeight,
+          behavior: 'smooth'
+        });
+      } catch (err) {
+        console.error('Error scrolling to bottom:', err);
+      }
+    }, delay);
   }
 
   private getChannelMessages(): void {
@@ -143,6 +146,10 @@ export class MessagesComponent implements OnInit, AfterViewInit {
       this.messages = messages;
       this.messages.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
       this.messagesToDisplay = messages;
+      let scrollWait = messages.length * 5;
+      if(scrollWait > this.maxScrollWait)
+        scrollWait = this.maxScrollWait;
+      this.scrollToBottomSmoothly(this.maxScrollWait);
     });
   }
 
@@ -155,8 +162,10 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     } else if (this.messageService.isReplying()) {
       this.sendReplyMessage(message);
       this.messageService.setReplying(false);
+      this.scrollToBottomSmoothly(100);
     } else {
       this.sendMessage(message);
+      this.scrollToBottomSmoothly(100);
     }
   }
 

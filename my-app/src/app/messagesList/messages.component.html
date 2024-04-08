@@ -9,10 +9,10 @@
     </app-message>
   </div>
   <div class="overlay-container"> <!-- New container for overlay effects -->
-    <button *ngIf="showScrollButton && !showNewMessageIndicator" class="scroll-down-button" (click)="scrollToBottomSmoothly()">
+    <button *ngIf="showScrollButton && !showNewMessageIndicator" class="scroll-down-button" (click)="scrollToBottomSmoothly(0)">
       <i class="fas fa-arrow-down"></i>
     </button>
-    <div *ngIf="showNewMessageIndicator" class="new-message-indicator" (click)="scrollToBottomSmoothly()">New Message</div>
+    <div *ngIf="showNewMessageIndicator" class="new-message-indicator" (click)="scrollToBottomSmoothly(0)">New Message</div>
   </div>
   <div class="message-input">
     <app-message-input (messageSent)="onSubmit($event)" [messageToReply]="getMessageById(this.messageService.getReplyingTo())"></app-message-input>
