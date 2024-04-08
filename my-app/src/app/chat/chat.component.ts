@@ -12,12 +12,13 @@ import { CommonModule } from '@angular/common';
 import { MessageDetailService } from '../services/message-detail.service';
 import { ToastService } from '../services/toast.service';
 import { UnreadmessageService } from '../services/unreadmessage.service';
+import { ToastComponent } from '../toast/toast.component';
 
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [RouterOutlet,ChannellistComponent,MessagesComponent,NavComponent,MessageInputComponent,MessageDetailsModalComponent,CommonModule],
+  imports: [RouterOutlet,ChannellistComponent,MessagesComponent,NavComponent,MessageInputComponent,MessageDetailsModalComponent,CommonModule,ToastComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
   providers: [MessageServiceService, ChannelserviceService, MessageDetailService,ToastService,UnreadmessageService]
@@ -28,6 +29,8 @@ export class ChatComponent implements OnInit {
   @Input() channels: boolean = true;
   @Input() url!: string;
   @Input() onMessageClick!: (message : Message) => void;
+  public searchResult: Message[] | undefined;
+  private currentChannelId: number | undefined;
 
   constructor(private messageService: MessageServiceService,private channelService: ChannelserviceService,public messageDetailService: MessageDetailService) {}
   
@@ -35,5 +38,15 @@ export class ChatComponent implements OnInit {
     this.messageService.setUrl(this.url);
     this.messageService.setAuthor(this.author);
     this.channelService.setUrl(this.url);
+  }
+
+  searchMessages(event: Event): void {
+    const searchTerm = (event.target as HTMLInputElement).value;
+    if (searchTerm && this.currentChannelId) {
+      this.messageService.search(this.currentChannelId, searchTerm).subscribe(messages => this.searchResult = messages);
+    }
+    else{
+      this.searchResult = undefined;
+    }
   }
 }

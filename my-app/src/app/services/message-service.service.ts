@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Message } from '../models/message';
 import { environment } from '../environment/environment';
 
@@ -31,6 +31,31 @@ export class MessageServiceService {
     const url = `${this.url}messages/${id}/body?apiKey=${this.apiKey}`;
     const newBody = { body } ;
     return this.HttpClient.put(url, newBody);
+  }
+
+  search(channelId: number, term: String): Observable<Message[]> {
+    const searchResult: Message[] = [];
+    term = term.toLocaleLowerCase();
+    if (!term) {
+      return new Observable<Message[]>(observer => {
+        observer.next([]);
+        observer.complete();
+      });
+    }
+
+    return this.getChannelMessages(channelId).pipe(
+      map((messages: any) => {
+        for (const message of messages) {
+          if (
+            message.author.toLowerCase().includes(term) ||
+            message.body.toLowerCase().includes(term)
+          ) {
+            searchResult.push(message);
+          }
+        }
+        return searchResult;
+      })
+    );
   }
 
   getAuthor(){

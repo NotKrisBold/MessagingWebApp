@@ -1,16 +1,21 @@
-<app-nav></app-nav>
 <div class="chat">
-  <div class="overlay" *ngIf="messageDetailService.showMessageDetails">
-    <div class="custom-toast-container">
-      <app-message-details-modal id="message-details"></app-message-details-modal>
+  <app-nav></app-nav>
+  <div class="content">
+    <div class="overlay" ngIf="messageDetailService.showMessageDetails">
+      <div class="details-container">
+        <app-message-details-modal id="message-details"></app-message-details-modal>
+      </div>
     </div>
-  </div>
-
-  <app-channellist  [showChannels]="channels"></app-channellist>
-  <div class="messages-container">
-    <router-outlet>
-      <app-messages [authorMessage]="author" [onMessageClick]="onMessageClick"></app-messages>
-      <!-- Overlay to make chat div not interactable -->
-    </router-outlet>
+    <div class="custom-toast-container">
+      <app-toast></app-toast>
+    </div>
+    <app-channellist [showChannels]="channels"></app-channellist>
+    <div class="messages-container">
+      <input *ngIf="search" (input)="searchMessages($event)" placeholder="Search messages..." class="search-bar" />
+      <router-outlet>
+        <app-messages [authorMessage]="author" [onMessageClick]="onMessageClick"
+          [searchResult]="searchResult"></app-messages>
+      </router-outlet>
+    </div>
   </div>
 </div>

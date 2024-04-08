@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Channel } from '../models/channel';
 import { RouterModule } from '@angular/router';
@@ -25,7 +25,7 @@ import { catchError, max } from 'rxjs/operators';
   imports: [HttpClientModule, NgIf, CommonModule, RouterModule, MessageInputComponent, MessageComponent,ToastComponent],
 })
 
-export class MessagesComponent implements OnInit, AfterViewInit {
+export class MessagesComponent implements OnInit, AfterViewInit, OnChanges{
   maxScrollWait = 500;
   messages: Message[] = [];
   channel: Channel | undefined;
@@ -41,6 +41,7 @@ export class MessagesComponent implements OnInit, AfterViewInit {
   messagesToDisplay: Message[] = [];
   searchTerms: Subject<string> = new Subject<string>();
   @Input() onMessageClick!: (message: Message) => void;
+  @Input() searchResult: Message[] | undefined;
 
   constructor(
     public messageService: MessageServiceService,
@@ -64,6 +65,15 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     this.messageList.nativeElement.addEventListener('scroll', () => {
       this.updateScrollButtonVisibilityAndNewMessageIndicator();
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(!this.searchResult){
+      this.messagesToDisplay = this.messages;
+      this.scrollToBottomSmoothly(100);
+    }
+    else
+      this.messagesToDisplay = this.searchResult;
   }
 
   private subscribeToWebSocket(): void {
@@ -159,13 +169,10 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     if (this.messageService.isModifying()) {
       this.sendUpdateMessage(message);
       this.messageService.setModifying(false);
-    } else if (this.messageService.isReplying()) {
-      this.sendReplyMessage(message);
-      this.messageService.setReplying(false);
-      this.scrollToBottomSmoothly(100);
     } else {
       this.sendMessage(message);
-      this.scrollToBottomSmoothly(100);
+      this.messageService.setReplying(false);
+      this.scrollToBottomSmoothly(200);
     }
   }
 
@@ -173,19 +180,9 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     this.messageService.updateMessage(this.messageService.getReplyingTo(), message).subscribe();
   }
 
-  sendReplyMessage(message: string): void {
-    if (message !== "") {
-      const newMessage = new Message(
-        uuidv4(),
-        this.messageService.getReplyingTo(),
-        message,
-        this.authorMessage,
-        new Date().toISOString(),
-        new Date().toISOString(),
-        this.channelId,
-        this.selectedFile,
-        this.channelId
-      );
+  sendMessage(message: string): void {
+    if (message !== "" || this.selectedFile) {
+      const newMessage = this.createMessage(message);
       const formData = new FormData();
       formData.append("message", new Blob([JSON.stringify(newMessage)], { type: 'application/json' }));
       formData.append("attachment", this.selectedFile ? this.selectedFile : new Blob());
@@ -194,25 +191,13 @@ export class MessagesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  sendMessage(message: string): void {
-    if (message !== "") {
-      const newMessage = new Message(
-        uuidv4(),
-        null,
-        message,
-        this.authorMessage,
-        new Date().toISOString(),
-        new Date().toISOString(),
-        this.channelId,
-        this.selectedFile,
-        this.channelId
-      );
-      const formData = new FormData();
-      formData.append("message", new Blob([JSON.stringify(newMessage)], { type: 'application/json' }));
-      formData.append("attachment", this.selectedFile ? this.selectedFile : new Blob());
-      this.messageService.addMessage(formData, this.channelId).subscribe();
-      this.removeFile();
-    }
+  createMessage(message: string): any{
+    const newMessage = {
+      body: message,
+      author: this.authorMessage,
+      parentMessageId: this.messageService.getReplyingTo() === "" ? null : this.messageService.getReplyingTo()
+    };
+    return newMessage;
   }
 
   removeFile(): void {
