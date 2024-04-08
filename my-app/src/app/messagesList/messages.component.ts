@@ -26,7 +26,7 @@ import { catchError, max } from 'rxjs/operators';
 })
 
 export class MessagesComponent implements OnInit, AfterViewInit {
-  maxScrollWait = 1000;
+  maxScrollWait = 500;
   messages: Message[] = [];
   channel: Channel | undefined;
   @Input() authorMessage: string = "";
