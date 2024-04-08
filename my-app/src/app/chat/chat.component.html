@@ -1,7 +1,7 @@
 <div class="chat">
   <app-nav></app-nav>
   <div class="content">
-    <div class="overlay" ngIf="messageDetailService.showMessageDetails">
+    <div class="overlay" *ngIf="messageDetailService.showMessageDetails">
       <div class="details-container">
         <app-message-details-modal id="message-details"></app-message-details-modal>
       </div>
