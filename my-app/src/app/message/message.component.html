@@ -12,19 +12,20 @@
                 [ngClass]="{'replied-content-sender': isCurrentUser, 'replied-content-other': !isCurrentUser}">
                 <div class="replied-message">
                     @if(parentMessage){
-                        <span class="replied-author">{{ parentMessage.author }}</span>
-                        <div class="replied-content">{{ parentMessage.body }}</div>
-                        <div class="message-attachment" *ngIf="parentMessage.attachment">
-                            @if(parentMessage.attachment.contentType.startsWith('image/')){
-                            <a href="{{ parentMessage.attachment.url }}" target="_blank"> <img class="message-image"
-                                    [src]="parentMessage.attachment.url" alt="{{ parentMessage.attachment.title }}"> </a>
-                            }
-                            @else {
-                            <a href="{{ parentMessage.attachment.url }}" target="_blank"> {{ parentMessage.attachment.title }} </a>
-                            }
-                        </div>
+                    <span class="replied-author">{{ parentMessage.author }}</span>
+                    <div class="replied-content">{{ parentMessage.body }}</div>
+                    <div class="message-attachment" *ngIf="parentMessage.attachment">
+                        @if(parentMessage.attachment.contentType.startsWith('image/')){
+                        <a href="{{ parentMessage.attachment.url }}" target="_blank"> <img class="message-image"
+                                [src]="parentMessage.attachment.url" alt="{{ parentMessage.attachment.title }}"> </a>
+                        }
+                        @else {
+                        <a href="{{ parentMessage.attachment.url }}" target="_blank"> {{ parentMessage.attachment.title
+                            }} </a>
+                        }
+                    </div>
                     }
-                    
+
                 </div>
             </div>
             <!-- Display link preview if available -->
@@ -60,10 +61,14 @@
             </div>
 
             <!-- Display message time -->
+            <!-- Display message time in custom format -->
             <div class="message-time">
-                {{ message.date | date: 'medium' }}<!-- Display modification indicator if message has been edited -->
+                {{ message.date | date: 'MM/dd/yy HH:mm' }}
+
+                <!-- Display modification indicator if message has been edited -->
                 <span class="modification-indicator" *ngIf="message.date !== message.lastEditTime">(modified)</span>
             </div>
+
         </div>
 
     </div>

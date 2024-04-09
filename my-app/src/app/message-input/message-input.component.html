@@ -6,9 +6,18 @@
             <p>{{ messageToReply.author }}</p>
         </div>
         
-        <span>{{ messageToReply.body }}</span>
-        <span>{{ messageToReply.attachment?.title }}</span>
-
+        <span>{{ messageToReply.body }}
+            <div class="message-attachment" *ngIf="messageToReply.attachment">
+                @if(messageToReply.attachment.contentType.startsWith('image/')){
+                <a href="{{ messageToReply.attachment.url }}" target="_blank"> <img class="message-image"
+                        [src]="messageToReply.attachment.url" alt="{{ messageToReply.attachment.title }}"> </a>
+                }
+                @else {
+                <a href="{{ messageToReply.attachment.url }}" target="_blank"> {{ messageToReply.attachment.title }} </a>
+                }
+            </div>
+        </span>
+            
     </div>
     <div *ngIf="this.messageService.isModifying()" class="message-to-reply">
             <p style="font-weight: bold;">
