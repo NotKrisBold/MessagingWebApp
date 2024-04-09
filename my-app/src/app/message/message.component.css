@@ -1,4 +1,3 @@
-/* General message container styles */
 .message-container {
   display: flex;
   flex-direction: column;
@@ -9,7 +8,7 @@
   position: relative;
 }
 
-.animation{
+.animation {
   display: flex;
   flex-direction: column;
   max-width: 30%;
@@ -21,11 +20,11 @@
   margin: 10px;
 }
 
-.sent .animation{
+.sent .animation {
   align-self: flex-end;
 }
 
-.received .animation{
+.received .animation {
   align-self: flex-start;
 }
 
@@ -43,13 +42,12 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Header and Content Styles */
-.message-header, .message-content {
+.message-header,
+.message-content {
   font-size: 16px;
   color: #333;
 }
 
-/* Message Header Styles */
 .message-header {
   display: flex;
   font-size: 16px;
@@ -58,7 +56,6 @@
   margin-bottom: 10px;
 }
 
-
 .message-content {
   padding: 16px;
   border-radius: 0 0 12px 12px;
@@ -66,24 +63,22 @@
   word-wrap: break-word;
 }
 
-/* Sent Message Styles */
 .sent .message-content {
   align-self: flex-end;
   background-color: #b6e6a0;
-  text-align: left; /* Align text content to right for sent messages */
+  text-align: left;
   width: 100%;
 }
 
-/* Received Message Styles */
 .received .message-content {
   align-self: flex-start;
   background-color: #d6eaf8;
-  text-align: left; /* Align text content to left for received messages */
+  text-align: left;
   width: 100%;
 }
 
-/* Replied Message Styles */
-.replied-content-sender, .replied-content-other {
+.replied-content-sender,
+.replied-content-other {
   background-color: #f0f0f0;
   padding: 8px;
   border-radius: 8px;
@@ -99,14 +94,12 @@
   color: #777;
 }
 
-/* Modification Indicator Styles */
 .modification-indicator {
   font-size: 12px;
   color: #777;
   margin-left: 8px;
 }
 
-/* Message Actions Styles */
 .reply-button,
 .modify-button {
   border: none;
@@ -116,12 +109,12 @@
   color: #333;
 }
 
-.message-header .reply{
-  width: 30px; /* Set the width of the button */
-  height: 30px; /* Set the height of the button */
-} 
+.message-header .reply {
+  width: 30px;
+  height: 30px;
+}
 
-.message-header .reply-button{
+.message-header .reply-button {
   margin-top: -13px;
 }
 
@@ -142,8 +135,8 @@
 }
 
 .message-header .modify {
-  width: 23px; /* Set the width of the button */
-  height: 23px; /* Set the height of the button */
+  width: 23px;
+  height: 23px;
 }
 
 .message-header .modify-button {
@@ -153,26 +146,25 @@
 }
 
 .message-header .reply-button:hover,
-.message-header .modify-button:hover{
-  transform: scale(1.3); /* Scale the button on hover */
+.message-header .modify-button:hover {
+  transform: scale(1.3);
 }
 
 .sent .message-header .reply-button:hover {
   transform: scale(-1.3, 1.3);
 }
 
-.reply-button:hover, .modify-button:hover {
-  filter: brightness(1.2); /* Brighten on hover */
+.reply-button:hover,
+.modify-button:hover {
+  filter: brightness(1.2);
 }
 
-/* Link Preview Container */
 .link-preview {
   display: flex;
   align-items: center;
   margin-top: 10px;
 }
 
-/* Remove button color on click */
 .reply-button:focus,
 .modify-button:focus,
 .reply-button:active,
@@ -180,7 +172,6 @@
   background-color: transparent !important;
 }
 
-/* Message Time Styles */
 .message-time {
   font-size: 12px;
   color: #777;
@@ -193,9 +184,9 @@
 }
 
 .message-image {
-  max-width: 100%; /* Set maximum width for the image */
-  width: auto; /* Allow the width to adjust proportionally */
-  height: auto; /* Allow the height to adjust proportionally */
-  display: block; /* Ensure the image is displayed as a block element */
-  margin-top: 5px; /* Add spacing at the top of the image */
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  margin-top: 5px;
 }

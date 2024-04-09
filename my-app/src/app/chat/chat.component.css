@@ -17,12 +17,10 @@
   display: flex;
 }
 
-
 .messages-container {
   flex: 1;
 }
 
-/* Search Bar */
 .search-bar {
   width: 10%;
   height: 40px;
@@ -44,13 +42,14 @@
 }
 
 .search-bar:hover {
-  background-color: rgba(136, 166, 168, 0.8); /* Adjust the opacity or color as desired */
+  background-color: rgba(136, 166, 168, 0.8);
 }
+
 .search-bar::placeholder {
   color: #ffffff;
 }
 
-.search-overlay{
+.search-overlay {
   position: absolute;
   z-index: 1001;
   width: 100%;
@@ -59,5 +58,5 @@
 
 .fas.fa-search {
   margin: 10px;
-  color: #ffffff; /* Colore dell'icona */
+  color: #ffffff;
 }

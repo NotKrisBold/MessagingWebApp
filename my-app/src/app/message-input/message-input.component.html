@@ -30,7 +30,7 @@
         <button class="cancel-button" (click)="clearMessageToReply()">Cancel</button>
     </div>
 
-    <textarea [(ngModel)]="messageText" placeholder="Type your message..."></textarea>
+    <textarea [(ngModel)]="messageText" placeholder="Type your message..." (keydown.enter)="preventNewLineAndSendMessage($event)"></textarea>
 
     <div class="file-send-container">
         <input id="file-upload" type="file" (change)="onFileSelected($event)" #inputFile style="display: none;">

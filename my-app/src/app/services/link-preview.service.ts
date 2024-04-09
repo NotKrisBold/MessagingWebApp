@@ -15,7 +15,7 @@ export class LinkPreviewService {
     return this.http.get(url, { responseType: 'text' })
       .pipe(
         map((html: string) => this.extractOpenGraphData(html, url)),
-        catchError(() => EMPTY) // Ignora l'errore e restituisci un observable vuoto
+        catchError(() => EMPTY)
       );
   }
 

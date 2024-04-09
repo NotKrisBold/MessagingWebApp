@@ -9,7 +9,7 @@ import { environment } from '../environment/environment';
 })
 export class WebSocketService {
 
-  private API_KEY = environment.apiKey; // Replace this with your API key
+  private API_KEY = environment.apiKey;
   private messageSubject: Subject<Message>;
   private client: Client;
   constructor() { 
@@ -20,13 +20,11 @@ export class WebSocketService {
     this.client.onConnect = () => {
       console.log('STOMP connected');
 
-      // Subscribe to new messages
       this.client.subscribe(`/app/${this.API_KEY}/new-message`, (message) => {
         const newMessage: Message = JSON.parse(message.body);
         this.messageSubject.next(newMessage);
       });
 
-      // Subscribe to updated messages
       this.client.subscribe(`/app/${this.API_KEY}/update-message`, (message) => {
         const newMessage: Message = JSON.parse(message.body);
         this.messageSubject.next(newMessage);

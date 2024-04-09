@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, NgModule, OnChanges, OnInit, Output, SimpleChanges, ViewChild, input } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Message } from '../models/message';
 import { MessageServiceService } from '../services/message-service.service';
@@ -50,7 +50,6 @@ export class MessageInputComponent implements OnInit, OnChanges{
   }
 
   clearFileInput() {
-    // Reset the file input element
     if (this.inputFile && this.inputFile.nativeElement) {
         this.inputFile.nativeElement.value = '';
     }
@@ -64,5 +63,10 @@ export class MessageInputComponent implements OnInit, OnChanges{
     this.messageService.setModifying(false);
     this.messageService.setReplying(false);
     this.messageText = "";
+  }
+
+  preventNewLineAndSendMessage(event: any){
+    event.preventDefault();
+    this.sendMessage();
   }
 }

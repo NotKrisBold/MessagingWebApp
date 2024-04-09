@@ -11,7 +11,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     width: 300px;
-    min-height: 60px; /* Set a minimum height to accommodate the header and some content */
+    min-height: 60px;
     display: flex;
     flex-direction: column;
   }
@@ -46,8 +46,8 @@
   .custom-toast-body {
     font-size: 14px;
     line-height: 1.4;
-    overflow-wrap: break-word; /* Enable word wrapping within the message body */
+    overflow-wrap: break-word; 
     word-wrap: break-word;
-    word-break: break-word; /* Handle long words that exceed the container width */
+    word-break: break-word;
   }
   

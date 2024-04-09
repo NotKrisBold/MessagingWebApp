@@ -195,7 +195,7 @@ export class MessagesComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   sendMessage(message: string): void {
-    if (message !== "" || this.selectedFile) {
+    if (message.trim() !== "" || this.selectedFile) {
       const newMessage = this.createMessage(message);
       const formData = new FormData();
       formData.append("message", new Blob([JSON.stringify(newMessage)], { type: 'application/json' }));

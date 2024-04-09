@@ -28,6 +28,8 @@ export class MessageComponent implements OnInit {
 
   isCurrentUser: boolean = false;
 
+  private sanitizedBody: SafeHtml | undefined;
+
   constructor(
     private messageService: MessageServiceService,
     private linkPreviewService: LinkPreviewService,
@@ -67,6 +69,7 @@ export class MessageComponent implements OnInit {
     if (!this.messageService.isReplying()) {
       this.messageService.setModifying(true);
       this.messageService.setReplyingOrModifyingTo(this.message.id);
+      this.sanitizedBody = undefined;
     }
     else{
       this.messageService.setReplying(false);
@@ -76,15 +79,16 @@ export class MessageComponent implements OnInit {
   }
 
   sanitizeMessageBody(body: string): SafeHtml {
-    // Regular expression to match URLs
+    if(this.sanitizedBody)
+      return this.sanitizedBody;
+
     const urlRegex = /(https?:\/\/[^\s]+)/g;
 
-    // Replace URLs with anchor tags
     const sanitizedBody = body.replace(urlRegex, (url) => {
       return `<a href="${url}" target="_blank">${url}</a>`;
     });
 
-    // Sanitize the modified body to make it safe HTML
-    return this.sanitizer.bypassSecurityTrustHtml(sanitizedBody);
+    this.sanitizedBody = this.sanitizer.bypassSecurityTrustHtml(sanitizedBody.replace(/\n/g, '<br>'));
+    return this.sanitizedBody;
   }
 }

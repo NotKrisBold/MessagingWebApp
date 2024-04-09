@@ -21,14 +21,14 @@ export class ChannelserviceService {
     return this.httpClient.get<Channel[]>(`${this.url}/channels`).pipe(
       tap(channels => {
         if (channels && channels.length > 0) {
-          this.setCurrentChannel(channels[0]); // Set the first channel as the current one
+          this.setCurrentChannel(channels[0]);
         }
       })
     );
   }
 
   setCurrentChannel(channel: Channel | undefined): void {
-    this.currentChannelSubject.next(channel); // Notify subscribers about the change
+    this.currentChannelSubject.next(channel);
   }
 
   getCurrentChannel(): Observable<Channel | undefined> {
