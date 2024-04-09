@@ -187,10 +187,11 @@ export class MessagesComponent implements OnInit, AfterViewInit, OnChanges {
       this.messageService.setReplying(false);
       this.scrollToBottomSmoothly(200);
     }
+    this.messageService.setReplyingOrModifyingTo("");
   }
 
   sendUpdateMessage(message: string): void {
-    this.messageService.updateMessage(this.messageService.getReplyingTo(), message).subscribe();
+    this.messageService.updateMessage(this.messageService.getReplyingOrModifyingTo(), message).subscribe();
   }
 
   sendMessage(message: string): void {
@@ -208,7 +209,7 @@ export class MessagesComponent implements OnInit, AfterViewInit, OnChanges {
     const newMessage = {
       body: message,
       author: this.authorMessage,
-      parentMessageId: this.messageService.getReplyingTo() === "" ? null : this.messageService.getReplyingTo()
+      parentMessageId: this.messageService.getReplyingOrModifyingTo() === "" ? null : this.messageService.getReplyingOrModifyingTo()
     };
     return newMessage;
   }

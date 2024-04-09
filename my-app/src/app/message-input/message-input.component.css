@@ -92,8 +92,30 @@
   display: -webkit-box; 
   -webkit-box-orient: vertical; 
   -webkit-line-clamp: 10; 
-  max-height: 2.67em; 
+  max-height: 5em; 
   overflow: hidden; 
+}
+
+.message-body{
+  display: flex;
+  background-color: #cbe9bd;
+  padding: 12px;
+  border-radius: 4px;
+  text-overflow: ellipsis;
+  display: -webkit-box; 
+  -webkit-box-orient: vertical; 
+  -webkit-line-clamp: 10; 
+  max-height: 5.5em; 
+  overflow: hidden;
+}
+
+.message-attachment{
+  max-width: 5%; /* Set maximum width for the image */
+  max-height: 5%; /* Set maximum height for the image */
+  width: auto; /* Allow the width to adjust proportionally */
+  height: auto; /* Allow the height to adjust proportionally */
+  display: block; /* Ensure the image is displayed as a block element */
+  margin: 5px;
 }
 
 /* Responsive adjustments */
@@ -108,10 +130,10 @@
 }
 
 .message-image {
-  max-width: 5%; /* Set maximum width for the image */
-  max-height: 5%; /* Set maximum height for the image */
+  max-width: 100%; /* Set maximum width for the image */
+  max-height: 100%; /* Set maximum height for the image */
   width: auto; /* Allow the width to adjust proportionally */
   height: auto; /* Allow the height to adjust proportionally */
   display: block; /* Ensure the image is displayed as a block element */
-  margin-top: 5px; /* Add spacing at the top of the image */
 }
+

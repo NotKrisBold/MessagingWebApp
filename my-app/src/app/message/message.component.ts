@@ -54,14 +54,14 @@ export class MessageComponent implements OnInit {
   reply(event: MouseEvent) {
     if (!this.messageService.isModifying()) {
       this.messageService.setReplying(true);
-      this.messageService.setReplyingTo(this.message.id);
+      this.messageService.setReplyingOrModifyingTo(this.message.id);
     }
   }
 
   modify(event: MouseEvent) {
     if (!this.messageService.isReplying()) {
       this.messageService.setModifying(true);
-      this.messageService.setReplyingTo(this.message.id);
+      this.messageService.setReplyingOrModifyingTo(this.message.id);
     }
   }
 

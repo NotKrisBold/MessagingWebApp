@@ -1,31 +1,35 @@
 <div class="message-input">
     <div *ngIf="messageToReply && this.messageService.isReplying()" class="message-to-reply">
         <button class="cancel-button" (click)="clearMessageToReply()">Cancel</button>
-        
+
         <div class="message-header">
             <p>{{ messageToReply.author }}</p>
         </div>
-        
-        <span>{{ messageToReply.body }}
+
+        <div class="message-body" style="display: flex;">
             <div class="message-attachment" *ngIf="messageToReply.attachment">
                 @if(messageToReply.attachment.contentType.startsWith('image/')){
                 <a href="{{ messageToReply.attachment.url }}" target="_blank"> <img class="message-image"
                         [src]="messageToReply.attachment.url" alt="{{ messageToReply.attachment.title }}"> </a>
                 }
                 @else {
-                <a href="{{ messageToReply.attachment.url }}" target="_blank"> {{ messageToReply.attachment.title }} </a>
+                <a href="{{ messageToReply.attachment.url }}" target="_blank"> {{ messageToReply.attachment.title }}
+                </a>
                 }
             </div>
-        </span>
-            
+            <div>
+                {{ messageToReply.body }}
+            </div>
+        </div>
+
     </div>
     <div *ngIf="this.messageService.isModifying()" class="message-to-reply">
-            <p style="font-weight: bold;">
-                Modifying
-            </p>
-            <button class="cancel-button" (click)="clearMessageToReply()">Cancel</button>
+        <p style="font-weight: bold;">
+            Modifying
+        </p>
+        <button class="cancel-button" (click)="clearMessageToReply()">Cancel</button>
     </div>
-    
+
     <textarea [(ngModel)]="messageText" placeholder="Type your message..."></textarea>
 
     <div class="file-button-container">

@@ -15,7 +15,7 @@ export class MessageServiceService {
   private modifyingMessage = false;
   private replyingMessage = false;
   private HttpClient = inject(HttpClient);
-  private replyingToId = "";
+  private replyingOrModifyingToId = "";
 
   getChannelMessages(id: number): Observable<Message[]> {
     const url = `${this.url}channels/${id}/messages?apiKey=${this.apiKey}`;
@@ -82,12 +82,12 @@ export class MessageServiceService {
     this.modifyingMessage = bool;
   }
 
-  setReplyingTo(id: string) {
-    this.replyingToId = id;
+  setReplyingOrModifyingTo(id: string) {
+    this.replyingOrModifyingToId = id;
   }
 
-  getReplyingTo() {
-    return this.replyingToId;
+  getReplyingOrModifyingTo() {
+    return this.replyingOrModifyingToId;
   }
 
   setUrl(url: string){

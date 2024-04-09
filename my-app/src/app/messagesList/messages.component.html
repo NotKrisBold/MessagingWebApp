@@ -14,6 +14,6 @@
     <div *ngIf="showNewMessageIndicator" class="new-message-indicator" (click)="scrollToBottomSmoothly(0)">New Message</div>
   </div>
   <div class="message-input">
-    <app-message-input (messageSent)="onSubmit($event)" [messageToReply]="getMessageById(this.messageService.getReplyingTo())"></app-message-input>
+    <app-message-input (messageSent)="onSubmit($event)" [messageToReply]="getMessageById(this.messageService.getReplyingOrModifyingTo())"></app-message-input>
   </div>
 </div>

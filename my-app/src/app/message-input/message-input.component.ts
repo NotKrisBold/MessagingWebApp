@@ -46,7 +46,7 @@ export class MessageInputComponent implements OnChanges{
   }
 
   clearMessageToReply() {
-    this.messageService.setReplyingTo("");
+    this.messageService.setReplyingOrModifyingTo("");
     this.messageService.setModifying(false);
     this.messageService.setReplying(false);
     this.messageText = "";
