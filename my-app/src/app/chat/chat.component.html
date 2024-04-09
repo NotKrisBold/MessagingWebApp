@@ -1,5 +1,5 @@
-<div class="search-overlay">
-  <input *ngIf="search" (input)="searchMessages($event)" placeholder="Search" class="search-bar" /><i class="fas fa-search"></i>
+<div class="search-overlay" *ngIf="search">
+  <input (input)="searchMessages($event)" placeholder="Search" class="search-bar" /><i class="fas fa-search"></i>
 </div>
 <app-nav></app-nav>
 

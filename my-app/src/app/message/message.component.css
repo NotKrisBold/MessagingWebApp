@@ -9,6 +9,31 @@
   position: relative;
 }
 
+.animation{
+  display: flex;
+  flex-direction: column;
+  max-width: 30%;
+  min-width: 15%;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 10px;
+}
+
+.sent .animation{
+  align-self: flex-end;
+}
+
+.received .animation{
+  align-self: flex-start;
+}
+
+.animation:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
 .message-content {
   position: relative;
   padding: 20px;
@@ -17,36 +42,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
-.sent .animation{
-  display: flex;
-  flex-direction: column;
-  max-width: 30%;
-  min-width: 10%;
-  margin: 10px;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  align-self: flex-end;
-}
-.received .animation{
-  display: flex;
-  flex-direction: column;
-  max-width: 30%;
-  min-width: 10%;
-  margin: 10px;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  align-self: flex-start;
-}
-.animation:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
 
 /* Header and Content Styles */
 .message-header, .message-content {
@@ -112,13 +107,6 @@
 }
 
 /* Message Actions Styles */
-.message-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-  width: 100%;
-}
-
 .reply-button,
 .modify-button {
   border: none;
@@ -128,48 +116,48 @@
   color: #333;
 }
 
-.message-actions .reply{
+.message-header .reply{
   width: 30px; /* Set the width of the button */
   height: 30px; /* Set the height of the button */
 } 
 
-.reply-button{
-  margin-top: -20px;
+.message-header .reply-button{
+  margin-top: -13px;
 }
 
-.received .reply-button {
+.received .message-header .reply-button {
   margin-left: auto;
   margin-right: -10px;
 }
 
-.sent .reply-button {
+.sent .message-header .reply-button {
   margin-right: auto;
   margin-left: -10px;
   transform: scaleX(-1);
 }
 
-.modify-button {
+.message-header .modify-button {
   margin-left: 10px;
-  margin-top: -5px;
+  margin-top: -3px;
 }
 
-.message-actions .modify {
+.message-header .modify {
   width: 23px; /* Set the width of the button */
   height: 23px; /* Set the height of the button */
 }
 
-.message-actions .modify-button {
+.message-header .modify-button {
   margin-left: auto;
   margin-top: -20px;
   margin-right: -5px;
 }
 
-.message-actions .reply-button:hover,
-.message-actions .modify-button:hover{
+.message-header .reply-button:hover,
+.message-header .modify-button:hover{
   transform: scale(1.3); /* Scale the button on hover */
 }
 
-.sent .message-actions .reply-button:hover {
+.sent .message-header .reply-button:hover {
   transform: scale(-1.3, 1.3);
 }
 
