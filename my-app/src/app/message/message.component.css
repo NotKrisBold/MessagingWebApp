@@ -22,6 +22,7 @@
   display: flex;
   flex-direction: column;
   max-width: 30%;
+  min-width: 10%;
   margin: 10px;
   border-radius: 12px;
   overflow: hidden;
@@ -33,6 +34,7 @@
   display: flex;
   flex-direction: column;
   max-width: 30%;
+  min-width: 10%;
   margin: 10px;
   border-radius: 12px;
   overflow: hidden;
@@ -54,6 +56,7 @@
 
 /* Message Header Styles */
 .message-header {
+  display: flex;
   font-size: 16px;
   font-weight: bold;
   color: #333;
@@ -113,25 +116,61 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
+  width: 100%;
 }
 
-.reply-button, .modify-button {
-  padding: 10px 20px;
+.reply-button,
+.modify-button {
   border: none;
-  border-radius: 8px;
   cursor: pointer;
-  color: #fff;
+  background-color: transparent;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  color: #333;
 }
 
-.reply-button {
-  background-color: #007bff;
+.message-actions .reply{
+  width: 30px; /* Set the width of the button */
+  height: 30px; /* Set the height of the button */
+} 
+
+.reply-button{
+  margin-top: -20px;
+}
+
+.received .reply-button {
+  margin-left: auto;
+  margin-right: -10px;
+}
+
+.sent .reply-button {
+  margin-right: auto;
+  margin-left: -10px;
+  transform: scaleX(-1);
 }
 
 .modify-button {
-  background-color: #6c757d;
   margin-left: 10px;
+  margin-top: -5px;
+}
+
+.message-actions .modify {
+  width: 23px; /* Set the width of the button */
+  height: 23px; /* Set the height of the button */
+}
+
+.message-actions .modify-button {
+  margin-left: auto;
+  margin-top: -20px;
+  margin-right: -5px;
+}
+
+.message-actions .reply-button:hover,
+.message-actions .modify-button:hover{
+  transform: scale(1.3); /* Scale the button on hover */
+}
+
+.sent .message-actions .reply-button:hover {
+  transform: scale(-1.3, 1.3);
 }
 
 .reply-button:hover, .modify-button:hover {
@@ -143,6 +182,14 @@
   display: flex;
   align-items: center;
   margin-top: 10px;
+}
+
+/* Remove button color on click */
+.reply-button:focus,
+.modify-button:focus,
+.reply-button:active,
+.modify-button:active {
+  background-color: transparent !important;
 }
 
 /* Message Time Styles */

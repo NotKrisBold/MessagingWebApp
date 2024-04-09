@@ -46,7 +46,7 @@ export class MessageComponent implements OnInit {
     const targetElement = event.target as HTMLElement;
     
     const tagName = targetElement.tagName.toLowerCase();
-    if (tagName !== 'a' && tagName !== 'img' && tagName !== 'button') {
+    if (tagName !== 'a' && tagName !== 'img' && tagName !== 'button' && tagName !== 'svg') {
       this.onMessageClick(this.message);
     }
   }
