@@ -130,14 +130,13 @@
 }
 
 .message-body {
-  display: flex;
   background-color: #cbe9bd;
   padding: 12px;
   border-radius: 16px;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 10;
+  -webkit-line-clamp: 3;
   max-height: 5.5em;
   overflow: hidden;
 }

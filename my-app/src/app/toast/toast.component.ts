@@ -16,6 +16,7 @@ export class ToastComponent implements OnInit {
   showToast = false;
   toastBody = "";
   toastAuthor = "";
+  message: Message | undefined;
 
   constructor(private toastService: ToastService,private messageService: MessageServiceService) {
 
@@ -33,8 +34,7 @@ export class ToastComponent implements OnInit {
         }
         else{
           this.showToast = true;
-          this.toastAuthor = msg.author;
-          this.toastBody = msg.body;
+          this.message = msg;
         }
     });
   }
