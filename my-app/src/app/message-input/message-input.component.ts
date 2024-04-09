@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, NgModule, OnChanges, Output, SimpleChanges, ViewChild, input } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, NgModule, OnChanges, OnInit, Output, SimpleChanges, ViewChild, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Message } from '../models/message';
 import { MessageServiceService } from '../services/message-service.service';
@@ -11,7 +11,7 @@ import { MessageServiceService } from '../services/message-service.service';
   templateUrl: './message-input.component.html',
   styleUrl: './message-input.component.css'
 })
-export class MessageInputComponent implements OnChanges{
+export class MessageInputComponent implements OnInit, OnChanges{
 
 
   messageText: string = '';
@@ -19,12 +19,26 @@ export class MessageInputComponent implements OnChanges{
   @Input() messageToReply: Message | undefined;
   @Output() messageSent = new EventEmitter<{ text: string, file: File | null }>();
   @ViewChild('inputFile') inputFile!: ElementRef;
+  modifyingMessage: boolean = false;
   
   constructor(public messageService: MessageServiceService) { }
+
+  ngOnInit() {
+    this.messageService.modifyingMessageObs$.subscribe((value: boolean) => {
+      if (value === false && this.modifyingMessage === true) {
+        this.messageText = ''; 
+      }
+      else{
+        if(this.messageToReply)
+          this.messageText = this.messageToReply.body;
+      }
+      this.modifyingMessage = value;
+    });
+  }
   
   ngOnChanges(changes: SimpleChanges): void {
     if(this.messageService.isModifying() && this.messageToReply)
-      this.messageText = this.messageToReply.body;  
+      this.messageText = this.messageToReply.body; 
   }
 
   sendMessage() {

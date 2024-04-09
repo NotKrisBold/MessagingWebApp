@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Message } from '../models/message';
 import { environment } from '../environment/environment';
 
@@ -12,10 +12,13 @@ export class MessageServiceService {
   private author = "";
   private url = "";
   private apiKey = environment.apiKey;
+  private modifyingMessageObs = new BehaviorSubject<boolean>(false);
   private modifyingMessage = false;
   private replyingMessage = false;
   private HttpClient = inject(HttpClient);
   private replyingOrModifyingToId = "";
+
+  modifyingMessageObs$: Observable<boolean> = this.modifyingMessageObs.asObservable();
 
   getChannelMessages(id: number): Observable<Message[]> {
     const url = `${this.url}channels/${id}/messages?apiKey=${this.apiKey}`;
@@ -78,8 +81,9 @@ export class MessageServiceService {
     this.replyingMessage = bool;
   }
 
-  setModifying(bool: boolean){
+  setModifying(bool: boolean) {
     this.modifyingMessage = bool;
+    this.modifyingMessageObs.next(bool);
   }
 
   setReplyingOrModifyingTo(id: string) {

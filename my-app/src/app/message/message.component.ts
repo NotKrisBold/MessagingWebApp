@@ -46,7 +46,7 @@ export class MessageComponent implements OnInit {
     const targetElement = event.target as HTMLElement;
     
     const tagName = targetElement.tagName.toLowerCase();
-    if (tagName !== 'a' && tagName !== 'img' && tagName !== 'button' && tagName !== 'svg') {
+    if (tagName !== 'a' && tagName !== 'img' && tagName !== 'button' && tagName !== 'svg' && tagName !== 'path') {
       this.onMessageClick(this.message);
     }
   }
@@ -56,10 +56,20 @@ export class MessageComponent implements OnInit {
       this.messageService.setReplying(true);
       this.messageService.setReplyingOrModifyingTo(this.message.id);
     }
+    else{
+      this.messageService.setModifying(false);
+      this.messageService.setReplying(true);
+      this.messageService.setReplyingOrModifyingTo(this.message.id);
+    }
   }
 
   modify(event: MouseEvent) {
     if (!this.messageService.isReplying()) {
+      this.messageService.setModifying(true);
+      this.messageService.setReplyingOrModifyingTo(this.message.id);
+    }
+    else{
+      this.messageService.setReplying(false);
       this.messageService.setModifying(true);
       this.messageService.setReplyingOrModifyingTo(this.message.id);
     }
